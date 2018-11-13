@@ -1,0 +1,6 @@
+**/.jxbrowser-data/*
+**/.metadata/*
+**/RemoteSystemsTempFiles/*
+**/simplelink_cc13x0_sdk_2_10_00_36/*
+**/tirtos_builds_CC1350STK_release_ccs/*
+**/uartecho_CC1350STK_nortos_ccs/*
