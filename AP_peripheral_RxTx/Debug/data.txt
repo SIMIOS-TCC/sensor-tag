@@ -1,0 +1,2 @@
+Some text: RSSI;Time
+RSSI = -54
