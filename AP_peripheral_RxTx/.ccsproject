@@ -15,4 +15,5 @@
 	<templateProperties value="id=rfEasyLinkRx_CC1350STK_tirtos_ccs.projectspec.rfEasyLinkRx_CC1350STK_tirtos_ccs,buildProfile=release,isHybrid=true,"/>
 	<origin value="C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/projects/AP_peripheral_RxTx"/>
 	<filesToOpen value=""/>
+	<isTargetManual value="false"/>
 </projectOptions>

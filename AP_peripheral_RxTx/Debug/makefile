@@ -162,7 +162,7 @@ dependents:
 AP_peripheral_RxTx.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"AP_peripheral_RxTx.map" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="AP_peripheral_RxTx_linkInfo.xml" --rom_model -o "AP_peripheral_RxTx.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"AP_peripheral_RxTx.map" --heap_size=320 --stack_size=160 -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="AP_peripheral_RxTx_linkInfo.xml" --rom_model -o "AP_peripheral_RxTx.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

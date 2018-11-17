@@ -75,6 +75,10 @@
 
 #define ELECTROMAGNETIC_CTE 3.4
 #define RSSI_1M -60
+#define BUFFER_SIZE 56 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 30/3 [my_id,timestamp][id,rssi,timestamp] : 7 medidas por pacote
+#define QT_PACKETS 8
+
+#define MY_ID 1
 
 /***** Variable declarations *****/
 static Task_Params taskParams;
@@ -82,9 +86,9 @@ Task_Struct task;    /* not static so you can see in ROV */
 static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
-int id[96];
-int8_t rssi[96];
-int local_time[96];
+int id[BUFFER_SIZE];
+float distance[BUFFER_SIZE];
+int local_time[BUFFER_SIZE];
 int data_counter = 0;
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
@@ -112,43 +116,14 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     {
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
-//            id[data_counter] = rxPacket->payload[2];
-//            rssi[data_counter] = rxPacket->rssi;
-//
-//            time_t t = time(NULL);
-//            struct tm tm = *localtime(&t);
-//            local_time[data_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
+            id[data_counter] = rxPacket->payload[2];
+            distance[data_counter] = getRelativeDistance(rxPacket->rssi);
 
-//            printf("Packet %d: ", data_counter);
-//            printf("id = %d ", id[data_counter]);
-//            printf("RSSI = %" PRIi8 " ", rssi[data_counter]);
-//            printf("Distance = %f ", getRelativeDistance(rssi[data_counter]));
-//            printf("Timestamp = %d\n", local_time[data_counter]);
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            local_time[data_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
 
             data_counter++;
-
-            if(data_counter >= 24) { //&& ((int*)rxPacket->dstAddr)[0] == 0xBB) {
-//                int i;
-//                FILE *f = fopen("C:/Users/laris/Desktop/data.txt", "a");
-//                if (f == NULL)
-//                {
-//                    printf("Error opening file!\n");
-//                    exit(1);
-//                }
-//
-//                for(i = 0; i < data_counter; i++) {
-//                    printf("Writing data %d\n", i);
-//
-//                    fprintf(f, "1;");
-//                    fprintf(f, "%d;", local_time[i]);
-//                    fprintf(f, "%d;", id[i]);
-//                    float distance = getRelativeDistance(rssi[i]);
-//                    fprintf(f, "%f\n", distance);
-//                }
-//                fclose(f);
-                printf("All good\n");
-                data_counter = 0;
-            }
         }
 
         /* Toggle LED2 to indicate RX */
@@ -244,14 +219,15 @@ static void rfEasyLinkRxFnx()
     EasyLink_enableRxAddrFilter(addrFilter, 1, 1);
 #endif //RFEASYLINKRX_ADDR_FILTER
 
-    int counter = 0;
-    while(counter < 20) {
-        if(counter%5 == 0) {
-            printf("Contando %d \n", counter);
-        }
-        counter++;
+    boolean sendBuffer = false;
+    while(!sendBuffer) {
 #ifdef RFEASYLINKRX_ASYNC
         EasyLink_receiveAsync(rxDoneCb, 0);
+
+        if(data_counter >= BUFFER_SIZE) {
+            data_counter = 0;
+            sendBuffer = true;
+        }
 
         /* Wait 300ms for Rx */
         if(Semaphore_pend(doneSemaphore, (300000 / Clock_tickPeriod)) == FALSE)
@@ -337,25 +313,22 @@ static void rfEasyLinkTxFnx()
         while(1);
     }
 
-    int counter = 0;
-    while(counter < 20) {
-        if(counter%5 == 0) {
-            printf("Contando %d \n", counter);
-        }
-        counter++;
+   for(uint8_t packet_counter = 0; packet_counter < QT_PACKETS; packet_counter++) {
         EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
 
-        /* Create packet with incrementing sequence number and random payload */
-        txPacket.payload[0] = (uint8_t)(seqNumber >> 8);
+        /* Create packet with buffer on payload */
+        txPacket.payload[0] = (uint8_t)(MY_ID);
         txPacket.payload[1] = (uint8_t)(seqNumber++);
-        uint8_t i;
-        for (i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
-        {
-          txPacket.payload[i] = 0x02;
+        uint8_t i = 2;
+        while(i < RFEASYLINKTXPAYLOAD_LENGTH - 2) {
+          txPacket.payload[i++] = id[data_counter];
+          txPacket.payload[i++] = distance[data_counter];
+          txPacket.payload[i++] = local_time[data_counter];
+          data_counter++;
         }
 
         txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-        txPacket.dstAddr[0] = 0xaa;
+        txPacket.dstAddr[0] = 0xBB;
 
         /* Add a Tx delay for > 500ms, so that the abort kicks in and brakes the burst */
         if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
@@ -407,6 +380,7 @@ static void rfEasyLinkTxFnx()
 #endif //RFEASYLINKTX_ASYNC
     }
 
+   data_counter = 0;
     rfEasyLinkRxFnx();
 }
 
