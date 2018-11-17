@@ -138,37 +138,37 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-rfEasyLinkTx_CC1350STK_tirtos_ccs.out \
+simio_Tx.out \
 
 EXE_OUTPUTS__QUOTED += \
-"rfEasyLinkTx_CC1350STK_tirtos_ccs.out" \
+"simio_Tx.out" \
 
 BIN_OUTPUTS += \
-rfEasyLinkTx_CC1350STK_tirtos_ccs.hex \
+simio_Tx.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"rfEasyLinkTx_CC1350STK_tirtos_ccs.hex" \
+"simio_Tx.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "rfEasyLinkTx_CC1350STK_tirtos_ccs.out"
+	@$(MAKE) --no-print-directory -Onone "simio_Tx.out"
 
 dependents:
 	-cd C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug && $(MAKE) clean all
 
 # Tool invocations
-rfEasyLinkTx_CC1350STK_tirtos_ccs.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib
+simio_Tx.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"rfEasyLinkTx_CC1350STK_tirtos_ccs.map" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="rfEasyLinkTx_CC1350STK_tirtos_ccs_linkInfo.xml" --rom_model -o "rfEasyLinkTx_CC1350STK_tirtos_ccs.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"simio_Tx.map" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="simio_Tx_linkInfo.xml" --rom_model -o "simio_Tx.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-rfEasyLinkTx_CC1350STK_tirtos_ccs.hex: $(EXE_OUTPUTS)
+simio_Tx.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armhex"  -o "rfEasyLinkTx_CC1350STK_tirtos_ccs.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armhex"  -o "simio_Tx.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 

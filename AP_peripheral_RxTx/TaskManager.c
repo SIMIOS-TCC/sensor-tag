@@ -75,7 +75,7 @@
 
 #define ELECTROMAGNETIC_CTE 3.4
 #define RSSI_1M -60
-#define BUFFER_SIZE 56 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 30/3 [my_id,timestamp][id,rssi,timestamp] : 7 medidas por pacote
+#define BUFFER_SIZE 72 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 30/3 [my_id,timestamp][id,rssi,timestamp] : 9 medidas por pacote sobra 1 byte
 #define QT_PACKETS 8
 
 #define MY_ID 1
@@ -86,10 +86,10 @@ Task_Struct task;    /* not static so you can see in ROV */
 static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
-int id[BUFFER_SIZE];
-float distance[BUFFER_SIZE];
-int local_time[BUFFER_SIZE];
-int data_counter = 0;
+uint8_t id[BUFFER_SIZE];
+uint8_t rssi[BUFFER_SIZE];
+uint8_t local_time[BUFFER_SIZE];
+uint8_t data_counter = 0;
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
 PIN_Handle pinHandle;
@@ -116,8 +116,8 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     {
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
-            id[data_counter] = rxPacket->payload[2];
-            distance[data_counter] = getRelativeDistance(rxPacket->rssi);
+            id[data_counter] = rxPacket->payload[0];
+            rssi[data_counter] = rxPacket->rssi;
 
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
@@ -219,7 +219,7 @@ static void rfEasyLinkRxFnx()
     EasyLink_enableRxAddrFilter(addrFilter, 1, 1);
 #endif //RFEASYLINKRX_ADDR_FILTER
 
-    boolean sendBuffer = false;
+    bool sendBuffer = false;
     while(!sendBuffer) {
 #ifdef RFEASYLINKRX_ASYNC
         EasyLink_receiveAsync(rxDoneCb, 0);
@@ -313,16 +313,20 @@ static void rfEasyLinkTxFnx()
         while(1);
     }
 
-   for(uint8_t packet_counter = 0; packet_counter < QT_PACKETS; packet_counter++) {
+    uint8_t packet_counter;
+   for(packet_counter = 0; packet_counter < QT_PACKETS; packet_counter++) {
         EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
 
         /* Create packet with buffer on payload */
         txPacket.payload[0] = (uint8_t)(MY_ID);
-        txPacket.payload[1] = (uint8_t)(seqNumber++);
+
+        time_t t = time(NULL);
+        struct tm tm = *localtime(&t);
+        txPacket.payload[1] = (uint8_t)(( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec);
         uint8_t i = 2;
         while(i < RFEASYLINKTXPAYLOAD_LENGTH - 2) {
           txPacket.payload[i++] = id[data_counter];
-          txPacket.payload[i++] = distance[data_counter];
+          txPacket.payload[i++] = rssi[data_counter];
           txPacket.payload[i++] = local_time[data_counter];
           data_counter++;
         }

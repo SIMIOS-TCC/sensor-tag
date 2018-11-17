@@ -66,6 +66,8 @@
 #define RFEASYLINKTX_BURST_SIZE         10
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
 
+#define MY_ID 1
+
 Task_Struct txTask;    /* not static so you can see in ROV */
 static Task_Params txTaskParams;
 static uint8_t txTaskStack[RFEASYLINKTX_TASK_STACK_SIZE];
@@ -173,11 +175,10 @@ static void rfEasyLinkTxFnx(UArg arg0, UArg arg1)
     while(1) {
         EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
 
-        /* Create packet with incrementing sequence number and random payload */
-        txPacket.payload[0] = (uint8_t)(seqNumber >> 8);
-        txPacket.payload[1] = (uint8_t)(seqNumber++);
+        /* Create packet */
+        txPacket.payload[0] = (uint8_t)(MY_ID);
         uint8_t i;
-        for (i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
+        for (i = 1; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
         {
           txPacket.payload[i] = 0x02;
         }
