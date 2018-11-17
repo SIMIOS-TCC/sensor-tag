@@ -12,48 +12,36 @@ C_SRCS += \
 ../CC1350STK.c \
 ../TaskManager.c \
 ../ccfg.c \
-../main.c \
-../rfEasyLinkRx.c \
-../rfEasyLinkTx.c 
+../main.c 
 
 C_DEPS += \
 ./CC1350STK.d \
 ./TaskManager.d \
 ./ccfg.d \
-./main.d \
-./rfEasyLinkRx.d \
-./rfEasyLinkTx.d 
+./main.d 
 
 OBJS += \
 ./CC1350STK.obj \
 ./TaskManager.obj \
 ./ccfg.obj \
-./main.obj \
-./rfEasyLinkRx.obj \
-./rfEasyLinkTx.obj 
+./main.obj 
 
 OBJS__QUOTED += \
 "CC1350STK.obj" \
 "TaskManager.obj" \
 "ccfg.obj" \
-"main.obj" \
-"rfEasyLinkRx.obj" \
-"rfEasyLinkTx.obj" 
+"main.obj" 
 
 C_DEPS__QUOTED += \
 "CC1350STK.d" \
 "TaskManager.d" \
 "ccfg.d" \
-"main.d" \
-"rfEasyLinkRx.d" \
-"rfEasyLinkTx.d" 
+"main.d" 
 
 C_SRCS__QUOTED += \
 "../CC1350STK.c" \
 "../TaskManager.c" \
 "../ccfg.c" \
-"../main.c" \
-"../rfEasyLinkRx.c" \
-"../rfEasyLinkTx.c" 
+"../main.c" 
 
 

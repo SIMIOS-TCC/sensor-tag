@@ -111,8 +111,7 @@ int main(void)
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED1, 0);
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED2, 0);
 
-    TaskManager_init();
-    setNode(ledPinHandle);
+    TaskManager_init(ledPinHandle);
 
     /* Start BIOS */
     BIOS_start();

@@ -1,11 +1,10 @@
-#ifndef TASKMANAGER_H_
-#define TASKMANAGER_H_
+#ifndef RFEASYLINKRX_H
+#define RFEASYLINKRX_H
+
+/* Board Header files */
+#include "Board.h"
 
 /* Create the TaskManager */
-void TaskManager_init(void);
+void TaskManager_init(PIN_Handle ledPinHandle);
 
-void SetConcentrator();
-
-void SetNode();
-
-#endif /* TASKMANAGER_H_ */
+#endif /* RFEASYLINKRX_H */

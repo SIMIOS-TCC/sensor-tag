@@ -23,10 +23,10 @@ easylink/EasyLink.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_prop_cmd.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_ble_cmd.h
 easylink/EasyLink.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdlib.h
-easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/smartrf_settings/smartrf_settings_predefined.h
+easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/smartrf_settings/smartrf_settings_predefined.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_hs_mailbox.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_hs_cmd.h
-easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/smartrf_settings/smartrf_settings.h
+easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/smartrf_settings/smartrf_settings.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Clock.h
 easylink/EasyLink.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h
 easylink/EasyLink.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdarg.h
@@ -188,8 +188,8 @@ easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/pack
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/package/BIOS_RtsGateProxy.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Task.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h
-easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/Board.h
-easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/CC1350STK.h
+easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/Board.h
+easylink/EasyLink.obj: C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/CC1350STK.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/PIN.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h
 easylink/EasyLink.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h
@@ -236,10 +236,10 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/linkage.h:
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_prop_cmd.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_ble_cmd.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdlib.h: 
-C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/smartrf_settings/smartrf_settings_predefined.h: 
+C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/smartrf_settings/smartrf_settings_predefined.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_hs_mailbox.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_hs_cmd.h: 
-C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/smartrf_settings/smartrf_settings.h: 
+C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/smartrf_settings/smartrf_settings.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Clock.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdarg.h: 
@@ -401,8 +401,8 @@ C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/BIOS__e
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/package/BIOS_RtsGateProxy.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Task.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
-C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/Board.h: 
-C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/rfEasyLinkRx_CC1350STK_tirtos_ccs/CC1350STK.h: 
+C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/Board.h: 
+C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_peripheral_RxTx/CC1350STK.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/PIN.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h: 

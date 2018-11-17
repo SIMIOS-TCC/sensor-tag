@@ -16,8 +16,6 @@ ORDERED_OBJS += \
 "./TaskManager.obj" \
 "./ccfg.obj" \
 "./main.obj" \
-"./rfEasyLinkRx.obj" \
-"./rfEasyLinkTx.obj" \
 "./easylink/EasyLink.obj" \
 "./smartrf_settings/smartrf_settings.obj" \
 "./smartrf_settings/smartrf_settings_predefined.obj" \
@@ -141,45 +139,45 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-rfEasyLinkRx_CC1350STK_tirtos_ccs.out \
+AP_peripheral_RxTx.out \
 
 EXE_OUTPUTS__QUOTED += \
-"rfEasyLinkRx_CC1350STK_tirtos_ccs.out" \
+"AP_peripheral_RxTx.out" \
 
 BIN_OUTPUTS += \
-rfEasyLinkRx_CC1350STK_tirtos_ccs.hex \
+AP_peripheral_RxTx.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"rfEasyLinkRx_CC1350STK_tirtos_ccs.hex" \
+"AP_peripheral_RxTx.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "rfEasyLinkRx_CC1350STK_tirtos_ccs.out"
+	@$(MAKE) --no-print-directory -Onone "AP_peripheral_RxTx.out"
 
 dependents:
-	-cd C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug && $(MAKE) clean all
+	-cd C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug && $(MAKE) all
 
 # Tool invocations
-rfEasyLinkRx_CC1350STK_tirtos_ccs.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib
+AP_peripheral_RxTx.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"rfEasyLinkRx_CC1350STK_tirtos_ccs.map" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="rfEasyLinkRx_CC1350STK_tirtos_ccs_linkInfo.xml" --rom_model -o "rfEasyLinkRx_CC1350STK_tirtos_ccs.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 --define=CCFG_FORCE_VDDR_HH=0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"AP_peripheral_RxTx.map" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="AP_peripheral_RxTx_linkInfo.xml" --rom_model -o "AP_peripheral_RxTx.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-rfEasyLinkRx_CC1350STK_tirtos_ccs.hex: $(EXE_OUTPUTS)
+AP_peripheral_RxTx.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armhex"  -o "rfEasyLinkRx_CC1350STK_tirtos_ccs.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/bin/armhex"  -o "AP_peripheral_RxTx.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "CC1350STK.obj" "TaskManager.obj" "ccfg.obj" "main.obj" "rfEasyLinkRx.obj" "rfEasyLinkTx.obj" "easylink\EasyLink.obj" "smartrf_settings\smartrf_settings.obj" "smartrf_settings\smartrf_settings_predefined.obj" 
-	-$(RM) "CC1350STK.d" "TaskManager.d" "ccfg.d" "main.d" "rfEasyLinkRx.d" "rfEasyLinkTx.d" "easylink\EasyLink.d" "smartrf_settings\smartrf_settings.d" "smartrf_settings\smartrf_settings_predefined.d" 
+	-$(RM) "CC1350STK.obj" "TaskManager.obj" "ccfg.obj" "main.obj" "easylink\EasyLink.obj" "smartrf_settings\smartrf_settings.obj" "smartrf_settings\smartrf_settings_predefined.obj" 
+	-$(RM) "CC1350STK.d" "TaskManager.d" "ccfg.d" "main.d" "easylink\EasyLink.d" "smartrf_settings\smartrf_settings.d" "smartrf_settings\smartrf_settings_predefined.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
