@@ -75,7 +75,7 @@
 
 #define ELECTROMAGNETIC_CTE 3.4
 #define RSSI_1M -60
-#define BUFFER_SIZE 72 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 30/3 [my_id,timestamp][id,rssi,timestamp] : 9 medidas por pacote sobra 1 byte
+#define BUFFER_SIZE 56 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
 #define QT_PACKETS 8
 
 #define MY_ID 1
@@ -88,7 +88,7 @@ static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 //Storing data variables
 uint8_t id[BUFFER_SIZE];
 uint8_t rssi[BUFFER_SIZE];
-uint8_t local_time[BUFFER_SIZE];
+int local_time[BUFFER_SIZE];
 uint8_t data_counter = 0;
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
@@ -322,12 +322,16 @@ static void rfEasyLinkTxFnx()
 
         time_t t = time(NULL);
         struct tm tm = *localtime(&t);
-        uint8_t deltaTime = (uint8_t)(( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter];
+        uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter]);
+        uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
+        uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
+
         uint8_t i = 1;
-        while(i < RFEASYLINKTXPAYLOAD_LENGTH - 2) {
+        while(i < RFEASYLINKTXPAYLOAD_LENGTH - 3) {
           txPacket.payload[i++] = id[data_counter];
           txPacket.payload[i++] = rssi[data_counter];
-          txPacket.payload[i++] = deltaTime;
+          txPacket.payload[i++] = deltaTimeFirstByte;
+          txPacket.payload[i++] = deltaTimeSecondByte;
           data_counter++;
         }
 
