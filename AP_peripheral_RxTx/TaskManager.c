@@ -322,12 +322,12 @@ static void rfEasyLinkTxFnx()
 
         time_t t = time(NULL);
         struct tm tm = *localtime(&t);
-        txPacket.payload[1] = (uint8_t)(( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec);
-        uint8_t i = 2;
+        uint8_t deltaTime = (uint8_t)(( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter];
+        uint8_t i = 1;
         while(i < RFEASYLINKTXPAYLOAD_LENGTH - 2) {
           txPacket.payload[i++] = id[data_counter];
           txPacket.payload[i++] = rssi[data_counter];
-          txPacket.payload[i++] = local_time[data_counter];
+          txPacket.payload[i++] = deltaTime;
           data_counter++;
         }
 
