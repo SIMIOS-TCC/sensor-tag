@@ -12,7 +12,7 @@
 	<createSlaveProjects value=""/>
 	<ignoreDefaultDeviceSettings value="true"/>
 	<ignoreDefaultCCSSettings value="true"/>
-	<templateProperties value="id=rfEasyLinkTx_CC1350STK_tirtos_ccs.projectspec.rfEasyLinkTx_CC1350STK_tirtos_ccs,buildProfile=release,isHybrid=true,"/>
-	<origin value="C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/AP_central_TxUart"/>
+	<templateProperties value="id=rfEasyLinkRx_CC1350STK_tirtos_ccs.projectspec.rfEasyLinkRx_CC1350STK_tirtos_ccs,buildProfile=release,isHybrid=true,"/>
+	<origin value="C:\ti\simplelink_cc13x0_sdk_2_10_00_36\examples\rtos\CC1350STK\easylink\rfEasyLinkRx\tirtos\ccs\rfEasyLinkRx_CC1350STK_tirtos_ccs.projectspec"/>
 	<filesToOpen value=""/>
 </projectOptions>

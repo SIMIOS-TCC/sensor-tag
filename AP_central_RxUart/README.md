@@ -1,8 +1,8 @@
 Example Summary
 ---------------
-Example includes the EasyLink API and uses it to configure the RF driver to
-transmit packets. This project should be run in conjunction with the
-rfEasyLinkRx project.
+Example includes the EasyLink API and uses it to configure the RF driver to RX
+packets. This project should be run in conjunction with the rfEasyLinkTx
+project.
 
 Note that this project is set up to operate on the CC1352P1 by default, i.e. 
 the high PA mode for Sub-1 GHz frequencies is enabled. In order to support this
@@ -14,9 +14,11 @@ http://processors.wiki.ti.com/index.php/SimpleLink-EasyLink
 
 Peripherals Exercised
 ---------------------
-* `Board_PIN_LED1` - Indicates that a packet has been transmitted
-* `Board_PIN_LED2` - Indicates an abort which is expected after transmitting 10 packets
- `Board_PIN_LED1` & `Board_PIN_LED2` indicate an error
+* `Board_PIN_LED1` - Indicates an abort which is expected to happen 300 ms after RX has been scheduled
+* `Board_PIN_LED2` - Indicates that a packet has been received
+`Board_PIN_LED1` & `Board_PIN_LED2` indicate an error
+* `Board_GPTIMER0A` - Used to timeout the receive operation if it runs over 
+300ms in the no-RTOS asynchronous implementation
 
 
 Resources & Jumper Settings
@@ -27,27 +29,41 @@ Board.html in the directory &lt;SDK_INSTALL_DIR&gt;/source/ti/boards/&lt;BOARD&g
 
 Example Usage
 -------------
-Run the example. Board_PIN_LED1 will toggle every 100 ms indicating a packet has
-been transmitted. This will happen 10 times. The 11th transmission will then be
-aborted, toggling Board_PIN_LED2. This cycle will continue.
+Run the example. Board_PIN_LED2 will toggle indicating a packet has been received.
+Board_PIN_LED1 will toggle indicating an abort, which is expected to happen if a
+packet is not received within 300 ms of the RX being scheduled. Board_PIN_LED1 and
+Board_PIN_LED2 indicates an error (not expected to happen under normal conditions,
+but may occur if there is some interference).
 
-Before running this application you should first start the rfEasyLinkRx on a
-second board to see that the transmitted packets are received.
+After running this application you should start the rfEasyLinkTx on a second
+board to transmit packets. Until the rfEasyLinkTx has been started the
+receiver will be continuously RX.
 
 Application Design Details
 --------------------------
-This example shows how to use the EasyLink API to access the RF driver, set the
-frequency and transmit packets. The RFEASYLINKTX_ASYNC define is used to select
-between the Blocking or Async TX API.
+This example shows how to use the EasyLink API to access the RF drive, set the
+frequency and receive packets. The board will blink LED2 when a packet has been
+received. When a second board is running rfEasyLinkTx example then the expected
+behavior is that Board_PIN_LED2 will blink every 100 ms 10 times, the TX will then
+wait for 300 ms before transmitting the next packets and if RFEASYLINKRX_ASYNC
+is defined (as it is by default) then this will cause the rfEasyLinkRx example
+to timeout and exercise the EasyLink_abort API. When an RX has been aborted
+Board_PIN_LED1 should toggle. The rfEasyLinkTx board will then transmit another
+burst of packets and Board_PIN_LED2 should blink another 10 times and the cycle
+should repeat.
 
-The rfEasyLinkTx example will transmit a packet every 10 ms for 10 packets, if
-RFEASYLINKTX_ASYNC is defined (as it is by default) then the 11th TX will be
-scheduled, but will be aborted. This is to show an example of aborting a TX.
-LED2 will toggle when a TX abort happens. Board_PIN_LED1 and Board_PIN_LED2 indicates an
-error (not expected to happen). The TX/abort cycle will repeat indefinitely.
+If RFEASYLINKRX_ADDR_FILTER is defined (as it is by default) then the RX
+address filter will be enabled for address 0xaa. This will cause the
+rfEasyLinkRx to only accept packets with a destination address of 0xaa, which
+the rfEasyLinkTx example transmits. When using the rfEasyLinkTx example there
+will be no difference in behavior when defining/undefining
+RFEASYLINKRX_ADDR_FILTER as the rfEasyLinkTx example will use a destination
+address of 0xaa. However, if transmitting from another source like SmartRF
+Studio and not using an address of 0xaa, then defining RFEASYLINKRX_ADDR_FILTER
+will result in packets not being received.
 
-A single task, "rfEasyLinkTxFnx", configures the RF driver through the EasyLink
-API and transmits messages.
+A single task, "rfEasyLinkRxFnx", configures the RF driver through the EasyLink
+API and receives messages.
 
 EasyLink API
 -------------------------
@@ -110,9 +126,9 @@ manual for further details on each power mode.
 The EasyLink Layer uses the power management offered by the RF driver Refer to the RF
 Driver documentation for more details.
 
-# No-RTOS Implementation #
-The No-RTOS implementation uses *usleep()* to implement the timeout 
-feature for the asynchronous case. 
+### No-RTOS Implementation
+The No-RTOS implementation uses a general purpose timer to timeout the receive
+operation, for the asynchronous case, if it exceeds 300ms. 
 
 ### Supported Functions
     | Generic API function          | Description                                        |
@@ -136,7 +152,6 @@ feature for the asynchronous case.
     | EasyLink_setCtrl()            | Set RF parameters, test modes or EasyLink options  |
     | EasyLink_getCtrl()            | Get RF parameters or EasyLink options              |
     | EasyLink_getIeeeAddr()        | Gets the IEEE address                              |
-
 
 ### Frame Structure
 The EasyLink implements a basic header for transmitting and receiving data. This header supports

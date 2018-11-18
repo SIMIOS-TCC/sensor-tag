@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AP_central_TxUart</name>
+	<name>AP_central_RxUart</name>
 	<comment></comment>
 	<projects>
 		<project>tirtos_builds_CC1350STK_release_ccs</project>
