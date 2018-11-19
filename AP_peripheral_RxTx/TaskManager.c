@@ -75,8 +75,8 @@
 
 #define ELECTROMAGNETIC_CTE 3.4
 #define RSSI_1M -60
-#define BUFFER_SIZE 56 // 8 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
-#define QT_PACKETS 8
+#define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
+#define QT_PACKETS 4
 
 #define MY_ID 1
 
@@ -320,19 +320,19 @@ static void rfEasyLinkTxFnx()
         /* Create packet with buffer on payload */
         txPacket.payload[0] = (uint8_t)(MY_ID);
 
-        time_t t = time(NULL);
-        struct tm tm = *localtime(&t);
-        uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter]);
-        uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
-        uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
-
         uint8_t i = 1;
         while(i < RFEASYLINKTXPAYLOAD_LENGTH - 3) {
-          txPacket.payload[i++] = id[data_counter];
-          txPacket.payload[i++] = rssi[data_counter];
-          txPacket.payload[i++] = deltaTimeFirstByte;
-          txPacket.payload[i++] = deltaTimeSecondByte;
-          data_counter++;
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter]);
+            uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
+            uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
+
+            txPacket.payload[i++] = id[data_counter];
+            txPacket.payload[i++] = rssi[data_counter];
+            txPacket.payload[i++] = deltaTimeFirstByte;
+            txPacket.payload[i++] = deltaTimeSecondByte;
+            data_counter++;
         }
 
         txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
