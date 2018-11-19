@@ -38,12 +38,15 @@
 #include <xdc/runtime/Assert.h>
 #include <xdc/runtime/Error.h>
 #include <xdc/runtime/System.h>
+#include <stdint.h>
+#include <stddef.h>
 
 /* BIOS Header files */
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Clock.h>
+#include <ti/drivers/UART.h>
 
 /* TI-RTOS Header files */
 #include <ti/drivers/PIN.h>
@@ -61,11 +64,24 @@
 #define RFEASYLINKRX_ADDR_FILTER
 
 #define RFEASYLINKEX_TASK_STACK_SIZE 1024
-#define RFEASYLINKEX_TASK_PRIORITY   2
+#define RFEASYLINKEX_TASK_PRIORITY   3
+#define UART_TASK_PRIORITY   2
+
+#define RFEASYLINKTXPAYLOAD_LENGTH      30
+#define QT_PACKETS 4
+
+#define UART_STACK_SIZE 20
+
+uint8_t uart_stack_counter = 0;
+char uartStack[UART_STACK_SIZE];
 
 /* Pin driver handle */
 static PIN_Handle ledPinHandle;
 static PIN_State ledPinState;
+
+/* UART params */
+UART_Handle uart;
+UART_Params uartParams;
 
 /*
  * Application LED pin configuration table:
@@ -85,6 +101,10 @@ static Task_Params rxTaskParams;
 Task_Struct rxTask;    /* not static so you can see in ROV */
 static uint8_t rxTaskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
+static Task_Params uartTaskParams;
+Task_Struct uartTask;
+static uint8_t uartTaskStack[RFEASYLINKEX_TASK_STACK_SIZE];
+
 /* The RX Output struct contains statistics about the RX operation of the radio */
 PIN_Handle pinHandle;
 
@@ -93,11 +113,42 @@ static Semaphore_Handle rxDoneSem;
 #endif
 
 /***** Function definitions *****/
+static void uartFnx(UArg arg0, UArg arg1)
+{
+    int i = 0;
+    while(1) {
+        i++;
+//        if(uart_stack_counter == UART_STACK_SIZE) {
+//            uart_stack_counter = 0;
+//            UART_write(uart, uartStack, UART_STACK_SIZE);
+//            UART_write(uart, ".", 1);
+//        }
+    }
+}
+
 #ifdef RFEASYLINKRX_ASYNC
 void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
 {
     if (status == EasyLink_Status_Success)
     {
+        if(((int*)rxPacket->dstAddr)[0] == 0xBB) {
+//            uartStack[uart_stack_counter++] = (char*)rxPacket->payload[0];
+//            uartStack[uart_stack_counter++] = ";";
+//
+//            uint8_t i;
+//            uint8_t j;
+//            for(i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH - 3; i++) {
+//                for(j = 0; j < 4; j++) { // 4 bytes/measure
+//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //simio id
+//                    uartStack[uart_stack_counter++] = ";";
+//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //rssi
+//                    uartStack[uart_stack_counter++] = ";";
+//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //delta time byte 1
+//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //delta time byte 2
+//                }
+//            }
+        }
+
         /* Toggle LED2 to indicate RX */
         PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
     }
@@ -214,6 +265,16 @@ void rxTask_init(PIN_Handle ledPinHandle) {
     Task_construct(&rxTask, rfEasyLinkRxFnx, &rxTaskParams, NULL);
 }
 
+void uartTask_init() {
+    Task_Params_init(&uartTaskParams);
+    rxTaskParams.stackSize = RFEASYLINKEX_TASK_STACK_SIZE;
+    rxTaskParams.priority = UART_TASK_PRIORITY;
+    rxTaskParams.stack = &uartTaskStack;
+    rxTaskParams.arg0 = (UInt)1000000;
+
+    Task_construct(&uartTask, uartFnx, &uartTaskParams, NULL);
+}
+
 /*
  *  ======== main ========
  */
@@ -230,6 +291,24 @@ int main(void)
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED1, 0);
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED2, 0);
 
+    /* Call driver init functions */
+    UART_init();
+
+    /* Create a UART with data processing off. */
+    UART_Params_init(&uartParams);
+    uartParams.writeDataMode = UART_DATA_BINARY;
+    uartParams.readDataMode = UART_DATA_BINARY;
+    uartParams.readReturnMode = UART_RETURN_FULL;
+    uartParams.readEcho = UART_ECHO_OFF;
+    uartParams.baudRate = 115200;
+
+    uart = UART_open(Board_UART0, &uartParams);
+
+    while (uart == NULL) {
+        uart = UART_open(Board_UART0, &uartParams);
+    }
+
+    uartTask_init();
     rxTask_init(ledPinHandle);
 
     /* Start BIOS */
