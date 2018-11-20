@@ -54,6 +54,10 @@
 /* Board Header files */
 #include "Board.h"
 
+/* Custom includes */
+#include <stdio.h>
+#include <math.h>
+
 /* EasyLink API Header files */
 #include "easylink/EasyLink.h"
 
@@ -70,10 +74,14 @@
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
 #define QT_PACKETS 4
 
-#define UART_STACK_SIZE 20
+#define UART_STACK_SIZE 436 // 109 char / packet * 4 packets / stack
+#define MEM_STACK_SIZE 10
 
-uint8_t uart_stack_counter = 0;
 char uartStack[UART_STACK_SIZE];
+char memStack[MEM_STACK_SIZE][UART_STACK_SIZE];
+uint8_t mem_stack_dumper_counter = 0;
+uint8_t mem_stack_counter = 0;
+uint8_t mem_stack_filler_counter = 0;
 
 /* Pin driver handle */
 static PIN_Handle ledPinHandle;
@@ -115,14 +123,60 @@ static Semaphore_Handle rxDoneSem;
 /***** Function definitions *****/
 static void uartFnx(UArg arg0, UArg arg1)
 {
-    int i = 0;
-    while(1) {
-        i++;
-//        if(uart_stack_counter == UART_STACK_SIZE) {
-//            uart_stack_counter = 0;
-//            UART_write(uart, uartStack, UART_STACK_SIZE);
-//            UART_write(uart, ".", 1);
-//        }
+    uint8_t i;
+    /* Call driver init functions */
+    UART_init();
+
+    /* Create a UART with data processing off. */
+    UART_Params_init(&uartParams);
+    uartParams.writeDataMode = UART_DATA_BINARY;
+    uartParams.readDataMode = UART_DATA_BINARY;
+    uartParams.readReturnMode = UART_RETURN_FULL;
+    uartParams.readEcho = UART_ECHO_OFF;
+    uartParams.baudRate = 115200;
+
+    uart = UART_open(Board_UART0, &uartParams);
+
+    while (uart == NULL) {
+        uart = UART_open(Board_UART0, &uartParams);
+    }
+
+    while(uart != NULL) {
+        //Checks if memory has been update
+        if(mem_stack_dumper_counter != mem_stack_counter) {
+
+            //Updates UART stack with new memory stack
+            for(i = 0; i < UART_STACK_SIZE; i++) {
+                uartStack[i] = memStack[mem_stack_dumper_counter][i];
+            }
+
+            mem_stack_dumper_counter++;
+            if(mem_stack_dumper_counter == MEM_STACK_SIZE) {
+                mem_stack_dumper_counter = 0;
+            }
+
+            //Send serial UART stack
+            UART_write(uart, uartStack, UART_STACK_SIZE);
+            UART_write(uart, ".", 1);
+        }
+    }
+}
+
+void intToCharArray(char* a, uint8_t n, uint8_t size) {
+    uint8_t i;
+    uint8_t digit;
+    uint8_t aux;
+    for(i = 0; i < size; i++) {
+        digit = aux%10;
+        aux = aux/10;
+        a[i] = digit + '0';
+    }
+}
+
+void fillMemStack(char* a, uint8_t size) {
+    int i;
+    for(i = size-1; i >= 0; i--) {
+        memStack[mem_stack_counter][mem_stack_filler_counter++] = a[i];
     }
 }
 
@@ -131,23 +185,50 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
 {
     if (status == EasyLink_Status_Success)
     {
+        uint8_t i;
+        uint8_t j;
+
+        const uint8_t oneByteSyze = 3;
+        char* auxOneByte = malloc(oneByteSyze*sizeof(char));
+
+        //Fills memory with packet info
         if(((int*)rxPacket->dstAddr)[0] == 0xBB) {
-//            uartStack[uart_stack_counter++] = (char*)rxPacket->payload[0];
-//            uartStack[uart_stack_counter++] = ";";
-//
-//            uint8_t i;
-//            uint8_t j;
-//            for(i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH - 3; i++) {
-//                for(j = 0; j < 4; j++) { // 4 bytes/measure
-//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //simio id
-//                    uartStack[uart_stack_counter++] = ";";
-//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //rssi
-//                    uartStack[uart_stack_counter++] = ";";
-//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //delta time byte 1
-//                    uartStack[uart_stack_counter++] = (char*)rxPacket->payload[i++]; //delta time byte 2
-//                }
-//            }
+
+            intToCharArray(auxOneByte,rxPacket->payload[0],oneByteSyze); //ap id
+            fillMemStack(auxOneByte, oneByteSyze);
+
+            for(i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH - 3; i++) {
+                for(j = 0; j < 4; j++) { // 4 bytes/measure
+                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //simio id
+                    fillMemStack(auxOneByte, oneByteSyze);
+                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
+
+                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //rssi
+                    fillMemStack(auxOneByte, oneByteSyze);
+                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
+
+                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 1
+                    fillMemStack(auxOneByte, oneByteSyze);
+
+                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 2
+                    fillMemStack(auxOneByte, oneByteSyze);
+                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
+
+                }
+            }
+
+            //Checks if memory stack is full and updates counters
+            if(mem_stack_filler_counter == UART_STACK_SIZE) {
+                mem_stack_filler_counter = 0;
+
+                mem_stack_counter++;
+                if(mem_stack_counter == MEM_STACK_SIZE) {
+                    mem_stack_counter = 0;
+                }
+            }
         }
+
+        free(auxOneByte);
 
         /* Toggle LED2 to indicate RX */
         PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
@@ -290,23 +371,6 @@ int main(void)
     /* Clear LED pins */
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED1, 0);
     PIN_setOutputValue(ledPinHandle, Board_PIN_LED2, 0);
-
-    /* Call driver init functions */
-    UART_init();
-
-    /* Create a UART with data processing off. */
-    UART_Params_init(&uartParams);
-    uartParams.writeDataMode = UART_DATA_BINARY;
-    uartParams.readDataMode = UART_DATA_BINARY;
-    uartParams.readReturnMode = UART_RETURN_FULL;
-    uartParams.readEcho = UART_ECHO_OFF;
-    uartParams.baudRate = 115200;
-
-    uart = UART_open(Board_UART0, &uartParams);
-
-    while (uart == NULL) {
-        uart = UART_open(Board_UART0, &uartParams);
-    }
 
     uartTask_init();
     rxTask_init(ledPinHandle);

@@ -208,6 +208,12 @@ main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driver
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdio.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_ti_config.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/linkage.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/math.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_defs.h
+main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_limits.h
 main.obj: ../easylink/EasyLink.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/rf/RF.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/ClockP.h
@@ -216,8 +222,6 @@ main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_common_cmd.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_mailbox.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/string.h
-main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_ti_config.h
-main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/linkage.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_prop_cmd.h
 main.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_ble_cmd.h
 main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdlib.h
@@ -430,6 +434,12 @@ C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdio.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_ti_config.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/linkage.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/math.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_defs.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_limits.h: 
 ../easylink/EasyLink.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/rf/RF.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/ClockP.h: 
@@ -438,8 +448,6 @@ C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.h:
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_common_cmd.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_mailbox.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/string.h: 
-C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/_ti_config.h: 
-C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/linkage.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_prop_cmd.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_ble_cmd.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdlib.h: 
