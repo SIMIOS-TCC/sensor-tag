@@ -155,7 +155,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "simio_Tx.out"
 
 dependents:
-	-cd C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug && $(MAKE) clean all
+	-cd C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug && $(MAKE) all
 
 # Tool invocations
 simio_Tx.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Users/laris/Documents/SIMIOS-TCC/SensorTag/tirtos_builds_CC1350STK_release_ccs/Debug/tirtos_builds_CC1350STK_release_ccs.lib

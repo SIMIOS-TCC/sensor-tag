@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v18.1.1                     
 ******************************************************************************
->> Linked Mon Nov 19 16:45:34 2018
+>> Linked Tue Nov 27 11:15:54 2018
 
 OUTPUT FILE NAME:   <AP_peripheral_RxTx.out>
 ENTRY POINT SYMBOL: "ResetISR"  address: 00006345

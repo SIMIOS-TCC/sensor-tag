@@ -79,9 +79,9 @@
 
 char uartStack[UART_STACK_SIZE];
 char memStack[MEM_STACK_SIZE][UART_STACK_SIZE];
-uint8_t mem_stack_dumper_counter = 0;
-uint8_t mem_stack_counter = 0;
-uint8_t mem_stack_filler_counter = 0;
+int mem_stack_dumper_counter = 0;
+int mem_stack_counter = 0;
+int mem_stack_filler_counter = 0;
 
 /* Pin driver handle */
 static PIN_Handle ledPinHandle;
@@ -141,23 +141,20 @@ static void uartFnx(UArg arg0, UArg arg1)
         uart = UART_open(Board_UART0, &uartParams);
     }
 
+    UART_write(uart, "y", 1);
+
     while(uart != NULL) {
         //Checks if memory has been update
         if(mem_stack_dumper_counter != mem_stack_counter) {
 
-            //Updates UART stack with new memory stack
-            for(i = 0; i < UART_STACK_SIZE; i++) {
-                uartStack[i] = memStack[mem_stack_dumper_counter][i];
-            }
+            //Send serial UART stack
+            UART_write(uart, memStack[mem_stack_dumper_counter], UART_STACK_SIZE);
+            UART_write(uart, ".", 1);
 
             mem_stack_dumper_counter++;
             if(mem_stack_dumper_counter == MEM_STACK_SIZE) {
                 mem_stack_dumper_counter = 0;
             }
-
-            //Send serial UART stack
-            UART_write(uart, uartStack, UART_STACK_SIZE);
-            UART_write(uart, ".", 1);
         }
     }
 }
@@ -165,7 +162,7 @@ static void uartFnx(UArg arg0, UArg arg1)
 void intToCharArray(char* a, uint8_t n, uint8_t size) {
     uint8_t i;
     uint8_t digit;
-    uint8_t aux;
+    uint8_t aux = n;
     for(i = 0; i < size; i++) {
         digit = aux%10;
         aux = aux/10;
@@ -196,25 +193,23 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
 
             intToCharArray(auxOneByte,rxPacket->payload[0],oneByteSyze); //ap id
             fillMemStack(auxOneByte, oneByteSyze);
+            memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
 
-            for(i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH - 3; i++) {
-                for(j = 0; j < 4; j++) { // 4 bytes/measure
-                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //simio id
-                    fillMemStack(auxOneByte, oneByteSyze);
-                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
+            for(i = 1; i < RFEASYLINKTXPAYLOAD_LENGTH - 3; ) {
+                intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //simio id
+                fillMemStack(auxOneByte, oneByteSyze);
+                memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
 
-                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //rssi
-                    fillMemStack(auxOneByte, oneByteSyze);
-                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
+                intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //rssi
+                fillMemStack(auxOneByte, oneByteSyze);
+                memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
 
-                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 1
-                    fillMemStack(auxOneByte, oneByteSyze);
+                intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 1
+                fillMemStack(auxOneByte, oneByteSyze);
 
-                    intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 2
-                    fillMemStack(auxOneByte, oneByteSyze);
-                    memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
-
-                }
+                intToCharArray(auxOneByte,rxPacket->payload[i++],oneByteSyze); //delta time byte 2
+                fillMemStack(auxOneByte, oneByteSyze);
+                memStack[mem_stack_counter][mem_stack_filler_counter++] = ';';
             }
 
             //Checks if memory stack is full and updates counters
@@ -292,12 +287,12 @@ static void rfEasyLinkRxFnx(UArg arg0, UArg arg1)
 
 #ifdef RFEASYLINKRX_ADDR_FILTER
 	/* 
-     * The address filter is set to match on a single byte (0xAA) but 
+     * The address filter is set to match on a single byte (0xBB) but
      * EasyLink_enableRxAddrFilter will copy 
      * EASYLINK_MAX_ADDR_SIZE * EASYLINK_MAX_ADDR_FILTERS
      * bytes to the address filter bank
      */
-    uint8_t addrFilter[EASYLINK_MAX_ADDR_SIZE * EASYLINK_MAX_ADDR_FILTERS] = {0xaa};
+    uint8_t addrFilter[EASYLINK_MAX_ADDR_SIZE * EASYLINK_MAX_ADDR_FILTERS] = {0xbb};
     EasyLink_enableRxAddrFilter(addrFilter, 1, 1);
 #endif //RFEASYLINKRX_ADDR_FILTER
 

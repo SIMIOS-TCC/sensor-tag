@@ -332,11 +332,12 @@ static void rfEasyLinkTxFnx()
             txPacket.payload[i++] = rssi[data_counter];
             txPacket.payload[i++] = deltaTimeFirstByte;
             txPacket.payload[i++] = deltaTimeSecondByte;
+
             data_counter++;
         }
 
         txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-        txPacket.dstAddr[0] = 0xBB;
+        txPacket.dstAddr[0] = 0xbb;
 
         /* Add a Tx delay for > 500ms, so that the abort kicks in and brakes the burst */
         if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)

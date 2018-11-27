@@ -145,7 +145,7 @@ static rfc_CMD_PROP_CS_t EasyLink_cmdPropCs;
 #endif // (defined(DeviceFamily_CC13X0) || defined(DeviceFamily_CC13X2))
 
 // The table for setting the Rx Address Filters
-static uint8_t addrFilterTable[EASYLINK_MAX_ADDR_FILTERS * EASYLINK_MAX_ADDR_SIZE] = {0xaa};
+static uint8_t addrFilterTable[EASYLINK_MAX_ADDR_FILTERS * EASYLINK_MAX_ADDR_SIZE] = {0xbb};
 
 //Mutex for locking the RF driver resource
 static Semaphore_Handle busyMutex;
