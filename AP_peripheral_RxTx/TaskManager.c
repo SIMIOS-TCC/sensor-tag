@@ -34,6 +34,7 @@
  *  ======== rfEasyLinkRx.c ========
  */
 /* Custom includes */
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>   // for the typedefs (redundant, actually)
 #include <inttypes.h> // for the macros
@@ -74,7 +75,7 @@
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
 
 #define ELECTROMAGNETIC_CTE 3.4
-#define RSSI_1M -60
+#define RSSI_1M -200
 #define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
 #define QT_PACKETS 4
 
@@ -104,9 +105,10 @@ static Semaphore_Handle doneSemaphore;
 static void rfEasyLinkTxFnx();
 static void rfEasyLinkRxFnx();
 
-float getRelativeDistance(int rssi) {
+float getRelativeDistance(uint8_t rssi) {
     //RSSI = -10*n*log10(d) + A
-    return pow(10, ((rssi - RSSI_1M)/(-10*ELECTROMAGNETIC_CTE)));
+    float d = pow(10, ((rssi - RSSI_1M)/(-10*ELECTROMAGNETIC_CTE)));
+    return d;//pow(10, ((rssi - RSSI_1M)/(-10*ELECTROMAGNETIC_CTE)));
 }
 
 #ifdef RFEASYLINKRX_ASYNC
@@ -118,6 +120,8 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
 
             id[data_counter] = rxPacket->payload[0];
             rssi[data_counter] = rxPacket->rssi;
+
+            printf("%f\n", getRelativeDistance(rssi[data_counter]));
 
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
@@ -256,7 +260,6 @@ static void rfEasyLinkRxFnx()
         }
 #endif //RX_ASYNC
     }
-
     rfEasyLinkTxFnx();
 }
 
