@@ -74,8 +74,8 @@
 #define RFEASYLINKTX_BURST_SIZE         10
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
 
-#define ELECTROMAGNETIC_CTE 3.4
-#define RSSI_1M -200
+#define ELECTROMAGNETIC_CTE 2.95
+#define RSSI_1M 55
 #define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
 #define QT_PACKETS 4
 
@@ -88,7 +88,7 @@ static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
 uint8_t id[BUFFER_SIZE];
-uint8_t rssi[BUFFER_SIZE];
+int8_t rssi[BUFFER_SIZE];
 int local_time[BUFFER_SIZE];
 uint8_t data_counter = 0;
 
@@ -107,8 +107,7 @@ static void rfEasyLinkRxFnx();
 
 float getRelativeDistance(uint8_t rssi) {
     //RSSI = -10*n*log10(d) + A
-    float d = pow(10, ((rssi - RSSI_1M)/(-10*ELECTROMAGNETIC_CTE)));
-    return d;//pow(10, ((rssi - RSSI_1M)/(-10*ELECTROMAGNETIC_CTE)));
+    return pow(10, ((RSSI_1M - rssi)/(-10*ELECTROMAGNETIC_CTE)));
 }
 
 #ifdef RFEASYLINKRX_ASYNC
@@ -119,8 +118,9 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
             id[data_counter] = rxPacket->payload[0];
-            rssi[data_counter] = rxPacket->rssi;
+            rssi[data_counter] = (-1)*rxPacket->rssi;
 
+            printf("%d\n", rssi[data_counter]);
             printf("%f\n", getRelativeDistance(rssi[data_counter]));
 
             time_t t = time(NULL);
@@ -230,7 +230,7 @@ static void rfEasyLinkRxFnx()
 
         if(data_counter >= BUFFER_SIZE) {
             data_counter = 0;
-            sendBuffer = true;
+            //sendBuffer = true;
         }
 
         /* Wait 300ms for Rx */

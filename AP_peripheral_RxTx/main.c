@@ -69,12 +69,6 @@
 #define RFEASYLINKRX_ASYNC
 #define RFEASYLINKRX_ADDR_FILTER
 
-#define RFEASYLINKEX_TASK_STACK_SIZE 1024
-#define RFEASYLINKEX_TASK_PRIORITY   2
-
-#define ELECTROMAGNETIC_CTE 3.4
-#define RSSI_1M -60
-
 /* Pin driver handle */
 static PIN_Handle ledPinHandle;
 static PIN_State ledPinState;

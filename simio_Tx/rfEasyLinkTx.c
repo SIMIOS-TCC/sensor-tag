@@ -178,7 +178,7 @@ static void rfEasyLinkTxFnx(UArg a0, UArg a1)//GPTimerCC26XX_Handle handle, GPTi
     EasyLink_Status pwrStatus = EasyLink_setRfPower(20);
 #else
     /* Set output power to 12dBm */
-    EasyLink_Status pwrStatus = EasyLink_setRfPower(20);
+    EasyLink_Status pwrStatus = EasyLink_setRfPower(8);
 #endif
     if(pwrStatus != EasyLink_Status_Success)
     {
@@ -249,7 +249,7 @@ static void rfEasyLinkTxFnx(UArg a0, UArg a1)//GPTimerCC26XX_Handle handle, GPTi
         }
 #endif //RFEASYLINKTX_ASYNC
 
-        Task_sleep(1000000);
+        //Task_sleep(1000000);
     }
 
 }
