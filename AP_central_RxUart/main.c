@@ -77,7 +77,6 @@
 #define UART_STACK_SIZE 436 // 109 char / packet * 4 packets / stack
 #define MEM_STACK_SIZE 10
 
-char uartStack[UART_STACK_SIZE];
 char memStack[MEM_STACK_SIZE][UART_STACK_SIZE];
 int mem_stack_dumper_counter = 0;
 int mem_stack_counter = 0;
@@ -123,7 +122,6 @@ static Semaphore_Handle rxDoneSem;
 /***** Function definitions *****/
 static void uartFnx(UArg arg0, UArg arg1)
 {
-    uint8_t i;
     /* Call driver init functions */
     UART_init();
 
@@ -183,7 +181,6 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     if (status == EasyLink_Status_Success)
     {
         uint8_t i;
-        uint8_t j;
 
         const uint8_t oneByteSyze = 3;
         char* auxOneByte = malloc(oneByteSyze*sizeof(char));

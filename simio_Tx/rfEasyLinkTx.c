@@ -37,10 +37,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/* timer library */
-#include <ti/drivers/timer/GPTimerCC26XX.h>
-#include <xdc/runtime/Types.h>
-
 /* XDCtools Header files */
 #include <xdc/std.h>
 #include <xdc/runtime/Assert.h>
@@ -71,18 +67,13 @@
 #define RFEASYLINKTX_BURST_SIZE         10
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
 
+#define QT_PACKETS 10
+
 #define MY_ID 1
 
 Task_Struct txTask;    /* not static so you can see in ROV */
 static Task_Params txTaskParams;
 static uint8_t txTaskStack[RFEASYLINKTX_TASK_STACK_SIZE];
-
-/*Timer driver handle */
-static GPTimerCC26XX_Handle hTimer;
-Task_Struct timerTask;
-static Task_Params timerTaskParams;
-
-GPTimerCC26XX_Value restartMatchVal = 0;
 
 /* Pin driver handle */
 static PIN_Handle pinHandle;
@@ -100,8 +91,6 @@ PIN_Config pinTable[] = {
 #endif    
 	PIN_TERMINATE
 };
-
-static uint16_t seqNumber;
 
 #ifdef RFEASYLINKTX_ASYNC
 static Semaphore_Handle txDoneSem;
@@ -133,8 +122,6 @@ void txDoneCb(EasyLink_Status status)
 
 static void rfEasyLinkTxFnx(UArg a0, UArg a1)//GPTimerCC26XX_Handle handle, GPTimerCC26XX_IntMask interruptMask)
 {
-    printf("oi lari\n");
-
     uint8_t txBurstSize = 0;
     uint32_t absTime;
     
@@ -186,123 +173,75 @@ static void rfEasyLinkTxFnx(UArg a0, UArg a1)//GPTimerCC26XX_Handle handle, GPTi
         while(1);
     }
 
-    while(1) {
-        EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
-
-        /* Create packet */
-        txPacket.payload[0] = (uint8_t)(MY_ID);
-        uint8_t i;
-        for (i = 1; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
-        {
-          txPacket.payload[i] = 0x02;
-        }
-
-        txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-        txPacket.dstAddr[0] = 0xaa;
-
-        /* Add a Tx delay for > 500ms, so that the abort kicks in and brakes the burst */
-        if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
-        {
-            // Problem getting absolute time
-        }
-        if(txBurstSize++ >= RFEASYLINKTX_BURST_SIZE)
-        {
-          /* Set Tx absolute time to current time + 1s */
-          txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(1000);
-          txBurstSize = 0;
-        }
-        /* Else set the next packet in burst to Tx in 100ms */
-        else
-        {
-          /* Set Tx absolute time to current time + 100ms */
-          txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(100);
-        }
-
-#ifdef RFEASYLINKTX_ASYNC
-        EasyLink_transmitAsync(&txPacket, txDoneCb);
-        /* Wait 300ms for Tx to complete */
-        if(Semaphore_pend(txDoneSem, (300000 / Clock_tickPeriod)) == FALSE)
-        {
-            /* TX timed out, abort */
-            if(EasyLink_abort() == EasyLink_Status_Success)
-            {
-                /*
-                 * Abort will cause the txDoneCb to be called and the txDoneSem
-                 * to be released, so we must consume the txDoneSem
-                 */
-               Semaphore_pend(txDoneSem, BIOS_WAIT_FOREVER);
-            }
-        }
-#else
-        EasyLink_Status result = EasyLink_transmit(&txPacket);
-
-        if (result == EasyLink_Status_Success)
-        {
-            /* Toggle LED1 to indicate TX */
-            PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
-        }
-        else
-        {
-            /* Toggle LED1 and LED2 to indicate error */
-            PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
-            PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
-        }
-#endif //RFEASYLINKTX_ASYNC
-
-        //Task_sleep(1000000);
-    }
-
-}
-
-/*
- *  Timer
- */
-
-void timerCallback(GPTimerCC26XX_Handle handle, GPTimerCC26XX_IntMask interruptMask) {
-    // interrupt callback code goes here. Minimize processing in interrupt.
-    printf("Callback\n");
-
-    EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
-
-    /* Create packet with incrementing sequence number and random payload */
-    txPacket.payload[0] = (uint8_t)(seqNumber >> 8);
-    txPacket.payload[1] = (uint8_t)(seqNumber++);
     uint8_t i;
-    for (i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
-    {
-         txPacket.payload[i] = rand();
+    while(1) {
+        for(i = 0; i < QT_PACKETS; i++) {
+            EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
+
+            /* Create packet */
+            txPacket.payload[0] = (uint8_t)(MY_ID);
+            uint8_t i;
+            for (i = 1; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
+            {
+              txPacket.payload[i] = 0x02;
+            }
+
+            txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
+            txPacket.dstAddr[0] = 0xaa;
+
+            /* Add a Tx delay for > 500ms, so that the abort kicks in and brakes the burst */
+            if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
+            {
+                // Problem getting absolute time
+            }
+            if(txBurstSize++ >= RFEASYLINKTX_BURST_SIZE)
+            {
+              /* Set Tx absolute time to current time + 1s */
+              txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(1000);
+              txBurstSize = 0;
+            }
+            /* Else set the next packet in burst to Tx in 100ms */
+            else
+            {
+              /* Set Tx absolute time to current time + 100ms */
+              txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(100);
+            }
+
+    #ifdef RFEASYLINKTX_ASYNC
+            EasyLink_transmitAsync(&txPacket, txDoneCb);
+            /* Wait 300ms for Tx to complete */
+            if(Semaphore_pend(txDoneSem, (300000 / Clock_tickPeriod)) == FALSE)
+            {
+                /* TX timed out, abort */
+                if(EasyLink_abort() == EasyLink_Status_Success)
+                {
+                    /*
+                     * Abort will cause the txDoneCb to be called and the txDoneSem
+                     * to be released, so we must consume the txDoneSem
+                     */
+                   Semaphore_pend(txDoneSem, BIOS_WAIT_FOREVER);
+                }
+            }
+    #else
+            EasyLink_Status result = EasyLink_transmit(&txPacket);
+
+            if (result == EasyLink_Status_Success)
+            {
+                /* Toggle LED1 to indicate TX */
+                PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+            }
+            else
+            {
+                /* Toggle LED1 and LED2 to indicate error */
+                PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+                PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
+            }
+    #endif //RFEASYLINKTX_ASYNC
+        }
+
+        Task_sleep(1000000);
     }
-    txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-    txPacket.dstAddr[0] = 0xaa;
 
-    EasyLink_transmitAsync(&txPacket, txDoneCb);
-}
-
-void taskFxnTimer(UArg a0, UArg a1) {
-  GPTimerCC26XX_Params params;
-  GPTimerCC26XX_Params_init(&params);
-  params.width          = GPT_CONFIG_16BIT;
-  params.mode           = GPT_MODE_PERIODIC_UP;
-  params.debugStallMode = GPTimerCC26XX_DEBUG_STALL_OFF;
-  hTimer = GPTimerCC26XX_open(CC1350STK_GPTIMER0A, &params);
-
-  if(hTimer == NULL) {
-    //Log_error0("Failed to open GPTimer");
-    Task_exit();
-  }
-
-  Types_FreqHz freq;
-  BIOS_getCpuFreq(&freq);
-  GPTimerCC26XX_Value loadVal = freq.lo / 1000 - 1; //47999
-  GPTimerCC26XX_setLoadValue(hTimer, loadVal);
-  GPTimerCC26XX_registerInterrupt(hTimer, timerCallback, GPT_INT_TIMEOUT);
-  //GPTimerCC26XX_registerInterrupt(hTimer, rfEasyLinkTxFnx, GPT_INT_TIMEOUT);
-
-  //while(1) {
-      printf("oi lu\n");
-      GPTimerCC26XX_start(hTimer);
-      printf("oi pedro\n");
-  //}
 }
 
 void txTask_init(PIN_Handle inPinHandle) {
@@ -334,7 +273,6 @@ int main(void)
     PIN_setOutputValue(pinHandle, Board_PIN_LED2, 0);
 
     txTask_init(pinHandle);
-    //taskFxnTimer(NULL, NULL);
 
     /* Start BIOS */
     BIOS_start();

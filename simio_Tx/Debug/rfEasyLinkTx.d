@@ -9,44 +9,21 @@ rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdio
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdarg.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/_types.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_types.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/timer/GPTimerCC26XX.h
+rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h
+rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stddef.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/std.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/M3.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/std.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdint.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/stdint.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_stdint.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/_stdint.h
-rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdbool.h
-rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stddef.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/HwiP.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/inc/hw_gpt.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/event.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/../inc/hw_chip_def.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_memmap.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_event.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/debug.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ioc.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ints.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/interrupt.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_nvic.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/cpu.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_cpu_scs.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/timer.h
-rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h
-rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/std.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/M3.h
-rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/std.h
+rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/xdc.h
+rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types__prologue.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/package/package.defs.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types__epilogue.h
-rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert.h
-rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert__prologue.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Main.h
 rfEasyLinkTx.obj: C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h
@@ -217,12 +194,28 @@ rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Clock.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/package/Clock_TimerProxy.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/PIN.h
+rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdbool.h
 rfEasyLinkTx.obj: ../Board.h
 rfEasyLinkTx.obj: ../CC1350STK.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/../inc/hw_chip_def.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_memmap.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ioc.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ints.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/interrupt.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_nvic.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/debug.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/cpu.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_cpu_scs.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h
 rfEasyLinkTx.obj: ../easylink/EasyLink.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/rf/RF.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/ClockP.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/SemaphoreP.h
+rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_common_cmd.h
 rfEasyLinkTx.obj: C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_mailbox.h
 rfEasyLinkTx.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/string.h
@@ -239,44 +232,21 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdio.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdarg.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/_types.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_types.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/timer/GPTimerCC26XX.h: 
+C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stddef.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/std.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/M3.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/std.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdint.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/stdint.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/machine/_stdint.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/sys/_stdint.h: 
-C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdbool.h: 
-C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stddef.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/HwiP.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/inc/hw_gpt.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/event.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/../inc/hw_chip_def.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_memmap.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_event.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/debug.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ioc.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ints.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/interrupt.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_nvic.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/cpu.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_cpu_scs.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/timer.h: 
-C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_50_05_12_core/packages/xdc/std.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/std.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/arm/elf/M3.h: 
-C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/targets/std.h: 
+C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/xdc.h: 
+C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types__prologue.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/package/package.defs.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types__epilogue.h: 
-C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert.h: 
-C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Assert__prologue.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Main.h: 
 C:/ti/xdctools_3_50_05_12_core/packages/xdc/runtime/Types.h: 
@@ -447,12 +417,28 @@ C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Eve
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/Clock.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/kernel/tirtos/packages/ti/sysbios/knl/package/Clock_TimerProxy.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/PIN.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/stdbool.h: 
 ../Board.h: 
 ../CC1350STK.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/ioc.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_types.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/../inc/hw_chip_def.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_memmap.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ioc.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_ints.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/interrupt.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_nvic.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/debug.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/cpu.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_cpu_scs.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../driverlib/rom.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/gpio.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/../inc/hw_gpio.h: 
 ../easylink/EasyLink.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/rf/RF.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/ClockP.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/drivers/dpl/SemaphoreP.h: 
+C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/DeviceFamily.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_common_cmd.h: 
 C:/ti/simplelink_cc13x0_sdk_2_10_00_36/source/ti/devices/cc13x0/driverlib/rf_mailbox.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.1.LTS/include/string.h: 
