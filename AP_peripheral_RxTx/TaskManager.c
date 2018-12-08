@@ -69,7 +69,8 @@
 #define RFEASYLINKRX_ADDR_FILTER
 
 #define RFEASYLINKEX_TASK_STACK_SIZE 1024
-#define RFEASYLINKEX_TASK_PRIORITY   2
+#define RX_RFEASYLINKEX_TASK_PRIORITY   2
+#define TX_RFEASYLINKEX_TASK_PRIORITY 3
 
 #define RFEASYLINKTX_BURST_SIZE         10
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
@@ -77,38 +78,46 @@
 #define ELECTROMAGNETIC_CTE 2.95
 #define RSSI_1M 55
 #define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
+#define MEM_STACK_SIZE 10
 #define QT_PACKETS 4
 
 #define MY_ID 1
 
 /***** Variable declarations *****/
-static Task_Params taskParams;
-Task_Struct task;    /* not static so you can see in ROV */
-static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
+static Task_Params txTaskParams;
+Task_Struct txTask;    /* not static so you can see in ROV */
+static uint8_t txTaskStack[RFEASYLINKEX_TASK_STACK_SIZE];
+
+static Task_Params rxTaskParams;
+Task_Struct rxTask;    /* not static so you can see in ROV */
+static uint8_t rxTaskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
-uint8_t id[BUFFER_SIZE];
-int8_t rssi[BUFFER_SIZE];
-int local_time[BUFFER_SIZE];
-uint8_t data_counter = 0;
+struct RxPackets_Buffer
+{
+        uint8_t id[BUFFER_SIZE];
+        int8_t rssi[BUFFER_SIZE];
+        int local_time[BUFFER_SIZE];
+
+};
+
+struct RxPackets_Buffer memStack[MEM_STACK_SIZE];
+int mem_stack_dumper_counter = 0;
+int mem_stack_counter = 0;
+int mem_stack_filler_counter = 0;
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
 PIN_Handle pinHandle;
-
-static uint16_t seqNumber;
 
 #ifdef RFEASYLINKRX_ASYNC
 static Semaphore_Handle doneSemaphore;
 #endif
 
 /***** Function definitions *****/
-static void rfEasyLinkTxFnx();
-static void rfEasyLinkRxFnx();
-
-float getRelativeDistance(uint8_t rssi) {
-    //RSSI = -10*n*log10(d) + A
-    return pow(10, ((RSSI_1M - rssi)/(-10*ELECTROMAGNETIC_CTE)));
-}
+//float getRelativeDistance(uint8_t rssi) {
+//    //RSSI = -10*n*log10(d) + A
+//    return pow(10, ((RSSI_1M - rssi)/(-10*ELECTROMAGNETIC_CTE)));
+//}
 
 #ifdef RFEASYLINKRX_ASYNC
 void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
@@ -117,17 +126,24 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     {
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
-            id[data_counter] = rxPacket->payload[0];
-            rssi[data_counter] = (-1)*rxPacket->rssi;
-
-            printf("%d\n", rssi[data_counter]);
-            printf("%f\n", getRelativeDistance(rssi[data_counter]));
+            memStack[mem_stack_counter].id[mem_stack_filler_counter] = rxPacket->payload[0];
+            memStack[mem_stack_counter].rssi[mem_stack_filler_counter] = (-1)*rxPacket->rssi;
 
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
-            local_time[data_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
+            memStack[mem_stack_counter].local_time[mem_stack_filler_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
 
-            data_counter++;
+            mem_stack_filler_counter++;
+        }
+
+        //Checks if memory stack is full and updates counters
+        if(mem_stack_filler_counter == BUFFER_SIZE) {
+            mem_stack_filler_counter = 0;
+
+            mem_stack_counter++;
+            if(mem_stack_counter == MEM_STACK_SIZE) {
+                mem_stack_counter = 0;
+            }
         }
 
         /* Toggle LED2 to indicate RX */
@@ -153,6 +169,11 @@ void txDoneCb(EasyLink_Status status)
 {
     if (status == EasyLink_Status_Success)
     {
+        mem_stack_dumper_counter++;
+        if(mem_stack_dumper_counter == MEM_STACK_SIZE) {
+            mem_stack_dumper_counter = 0;
+        }
+
         /* Toggle LED1 to indicate TX */
         PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
     }
@@ -171,7 +192,7 @@ void txDoneCb(EasyLink_Status status)
     Semaphore_post(doneSemaphore);
 }
 
-static void rfEasyLinkRxFnx()
+static void rfEasyLinkRxFnx(UArg arg0, UArg arg1)
 {
 #ifndef RFEASYLINKRX_ASYNC
     EasyLink_RxPacket rxPacket = {0};
@@ -223,15 +244,9 @@ static void rfEasyLinkRxFnx()
     EasyLink_enableRxAddrFilter(addrFilter, 1, 1);
 #endif //RFEASYLINKRX_ADDR_FILTER
 
-    bool sendBuffer = false;
-    while(!sendBuffer) {
+    while(1) {
 #ifdef RFEASYLINKRX_ASYNC
         EasyLink_receiveAsync(rxDoneCb, 0);
-
-        if(data_counter >= BUFFER_SIZE) {
-            data_counter = 0;
-            //sendBuffer = true;
-        }
 
         /* Wait 300ms for Rx */
         if(Semaphore_pend(doneSemaphore, (300000 / Clock_tickPeriod)) == FALSE)
@@ -260,10 +275,9 @@ static void rfEasyLinkRxFnx()
         }
 #endif //RX_ASYNC
     }
-    rfEasyLinkTxFnx();
 }
 
-static void rfEasyLinkTxFnx()
+static void rfEasyLinkTxFnx(UArg arg0, UArg arg1)
 {
     uint8_t txBurstSize = 0;
     uint32_t absTime;
@@ -316,23 +330,30 @@ static void rfEasyLinkTxFnx()
         while(1);
     }
 
-    uint8_t packet_counter;
-   for(packet_counter = 0; packet_counter < QT_PACKETS; packet_counter++) {
+    while(1) {
+
+        if(mem_stack_dumper_counter == mem_stack_counter) {
+            continue;
+        }
+
         EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
 
         /* Create packet with buffer on payload */
         txPacket.payload[0] = (uint8_t)(MY_ID);
 
         uint8_t i = 1;
+        uint8_t data_counter = 0;
         while(i < RFEASYLINKTXPAYLOAD_LENGTH - 3) {
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
-            uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter]);
+            uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 +
+                    (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec)
+                    - memStack[mem_stack_dumper_counter].local_time[data_counter]);
             uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
             uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
 
-            txPacket.payload[i++] = id[data_counter];
-            txPacket.payload[i++] = rssi[data_counter];
+            txPacket.payload[i++] = memStack[mem_stack_dumper_counter].id[data_counter];
+            txPacket.payload[i++] = memStack[mem_stack_dumper_counter].rssi[data_counter];
             txPacket.payload[i++] = deltaTimeFirstByte;
             txPacket.payload[i++] = deltaTimeSecondByte;
 
@@ -391,19 +412,33 @@ static void rfEasyLinkTxFnx()
         }
 #endif //RFEASYLINKTX_ASYNC
     }
+}
 
-   data_counter = 0;
-    rfEasyLinkRxFnx();
+void rxTask_init(PIN_Handle ledPinHandle) {
+    pinHandle = ledPinHandle;
+
+    Task_Params_init(&rxTaskParams);
+    rxTaskParams.stackSize = RFEASYLINKEX_TASK_STACK_SIZE;
+    rxTaskParams.priority = RX_RFEASYLINKEX_TASK_PRIORITY;
+    rxTaskParams.stack = &rxTaskStack;
+    rxTaskParams.arg0 = (UInt)1000000;
+
+    Task_construct(&rxTask, rfEasyLinkRxFnx, &rxTaskParams, NULL);
+}
+
+void txTask_init(PIN_Handle ledPinHandle) {
+    pinHandle = ledPinHandle;
+
+    Task_Params_init(&txTaskParams);
+    txTaskParams.stackSize = RFEASYLINKEX_TASK_STACK_SIZE;
+    txTaskParams.priority = TX_RFEASYLINKEX_TASK_PRIORITY;
+    txTaskParams.stack = &txTaskStack;
+    txTaskParams.arg0 = (UInt)1000000;
+
+    Task_construct(&txTask, rfEasyLinkTxFnx, &txTaskParams, NULL);
 }
 
 void TaskManager_init(PIN_Handle ledPinHandle) {
-    pinHandle = ledPinHandle;
-
-    Task_Params_init(&taskParams);
-    taskParams.stackSize = RFEASYLINKEX_TASK_STACK_SIZE;
-    taskParams.priority = RFEASYLINKEX_TASK_PRIORITY;
-    taskParams.stack = &taskStack;
-    taskParams.arg0 = (UInt)1000000;
-
-    Task_construct(&task, rfEasyLinkRxFnx, &taskParams, NULL);
+    rxTask_init(ledPinHandle);
+    txTask_init(ledPinHandle);
 }
