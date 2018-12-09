@@ -78,8 +78,10 @@
 #define ELECTROMAGNETIC_CTE 2.95
 #define RSSI_1M 55
 #define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
+#define QT_MEASURES 10
 #define MEM_STACK_SIZE 10
 #define QT_PACKETS 4
+#define TIME_DELAY 1
 
 #define MY_ID 1
 
@@ -93,18 +95,47 @@ Task_Struct rxTask;    /* not static so you can see in ROV */
 static uint8_t rxTaskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
-struct RxPackets_Buffer
+struct Measure
 {
-        uint8_t id[BUFFER_SIZE];
-        int8_t rssi[BUFFER_SIZE];
-        int local_time[BUFFER_SIZE];
-
+        uint8_t id;
+        int8_t rssi[QT_MEASURES];
+        uint8_t counter;
+        int local_time;
 };
 
-struct RxPackets_Buffer memStack[MEM_STACK_SIZE];
+struct Measure memStack[MEM_STACK_SIZE][BUFFER_SIZE];
 int mem_stack_dumper_counter = 0;
 int mem_stack_counter = 0;
 int mem_stack_filler_counter = 0;
+
+void addMeasureRssi(struct Measure* m, int8_t rssi) {
+    m->rssi[m->counter++] = rssi;
+}
+
+int8_t getAverageRssi(struct Measure* m) {
+    int sum = 0;
+
+    uint8_t i;
+    for(i = 0; i < m->counter; i++) {
+        sum += m->rssi[i];
+    }
+
+    return sum/(m->counter);
+}
+
+int findMeasureByIdTimestamp(uint8_t id, int local_time) {
+    int i;
+    for(i = 0; i < mem_stack_filler_counter; i++) {
+        struct Measure m = memStack[mem_stack_counter][i];
+        if(m.counter < BUFFER_SIZE &&
+                m.id == id &&
+                m.local_time >= local_time - TIME_DELAY) {
+            return i;
+        }
+    }
+
+    return BUFFER_SIZE;
+}
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
 PIN_Handle pinHandle;
@@ -126,14 +157,24 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     {
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
-            memStack[mem_stack_counter].id[mem_stack_filler_counter] = rxPacket->payload[0];
-            memStack[mem_stack_counter].rssi[mem_stack_filler_counter] = (-1)*rxPacket->rssi;
+            uint8_t id = rxPacket->payload[0];
+            int8_t rssi = (-1)*rxPacket->rssi;
 
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
-            memStack[mem_stack_counter].local_time[mem_stack_filler_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
+            int local_time = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
 
-            mem_stack_filler_counter++;
+            int measureId = findMeasureByIdTimestamp(id, local_time);
+            if(measureId < BUFFER_SIZE) {
+                addMeasureRssi(&(memStack[mem_stack_counter][measureId]), rssi);
+            } else {
+                struct Measure m;
+                m.id = id;
+                m.counter = 0;
+                addMeasureRssi(&m, rssi);
+                m.local_time = local_time;
+                memStack[mem_stack_counter][mem_stack_filler_counter++] = m;
+            }
         }
 
         //Checks if memory stack is full and updates counters
@@ -344,16 +385,18 @@ static void rfEasyLinkTxFnx(UArg arg0, UArg arg1)
         uint8_t i = 1;
         uint8_t data_counter = 0;
         while(i < RFEASYLINKTXPAYLOAD_LENGTH - 3) {
+            struct Measure m = memStack[mem_stack_dumper_counter][data_counter];
+
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
             uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 +
                     (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec)
-                    - memStack[mem_stack_dumper_counter].local_time[data_counter]);
+                    - m.local_time);
             uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
             uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
 
-            txPacket.payload[i++] = memStack[mem_stack_dumper_counter].id[data_counter];
-            txPacket.payload[i++] = memStack[mem_stack_dumper_counter].rssi[data_counter];
+            txPacket.payload[i++] = m.id;
+            txPacket.payload[i++] = getAverageRssi(&m);
             txPacket.payload[i++] = deltaTimeFirstByte;
             txPacket.payload[i++] = deltaTimeSecondByte;
 
