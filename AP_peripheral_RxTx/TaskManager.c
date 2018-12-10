@@ -79,6 +79,9 @@
 #define RSSI_1M 55
 #define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
 #define QT_PACKETS 4
+#define QT_MEASURES 10
+#define MEM_STACK_SIZE 10
+#define TIME_DELAY 1
 
 #define MY_ID 1
 
@@ -88,15 +91,19 @@ Task_Struct task;    /* not static so you can see in ROV */
 static uint8_t taskStack[RFEASYLINKEX_TASK_STACK_SIZE];
 
 //Storing data variables
-uint8_t id[BUFFER_SIZE];
-int8_t rssi[BUFFER_SIZE];
-int local_time[BUFFER_SIZE];
-uint8_t data_counter = 0;
+struct Measure
+{
+        uint8_t id;
+        int8_t rssi[QT_MEASURES];
+        uint8_t counter;
+        int local_time;
+};
+
+struct Measure memStack[BUFFER_SIZE];
+uint8_t rx_counter = 0;
 
 /* The RX Output struct contains statistics about the RX operation of the radio */
 PIN_Handle pinHandle;
-
-static uint16_t seqNumber;
 
 #ifdef RFEASYLINKRX_ASYNC
 static Semaphore_Handle rxDoneSemaphore;
@@ -108,9 +115,38 @@ static Semaphore_Handle txDoneSemaphore;
 
 /***** Function definitions *****/
 
-float getRelativeDistance(uint8_t rssi) {
-    //RSSI = -10*n*log10(d) + A
-    return pow(10, ((RSSI_1M - rssi)/(-10*ELECTROMAGNETIC_CTE)));
+//float getRelativeDistance(uint8_t rssi) {
+//    //RSSI = -10*n*log10(d) + A
+//    return pow(10, ((RSSI_1M - rssi)/(-10*ELECTROMAGNETIC_CTE)));
+//}
+
+void addMeasureRssi(struct Measure* m, int8_t rssi) {
+    m->rssi[m->counter++] = rssi;
+}
+
+int8_t getAverageRssi(struct Measure* m) {
+    int sum = 0;
+
+    uint8_t i;
+    for(i = 0; i < m->counter; i++) {
+        sum += m->rssi[i];
+    }
+
+    return sum/(m->counter);
+}
+
+int findMeasureByIdTimestamp(uint8_t id, int local_time) {
+    int i;
+    for(i = 0; i < rx_counter; i++) {
+        struct Measure m = memStack[i];
+        if(m.counter < BUFFER_SIZE &&
+                m.id == id &&
+                m.local_time >= local_time - TIME_DELAY) {
+            return i;
+        }
+    }
+
+    return BUFFER_SIZE;
 }
 
 #ifdef RFEASYLINKRX_ASYNC
@@ -120,14 +156,24 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
     {
         if(((int*)rxPacket->dstAddr)[0] == 0xAA) {
 
-            id[data_counter] = rxPacket->payload[0];
-            rssi[data_counter] = (-1)*rxPacket->rssi;
+            uint8_t id = rxPacket->payload[0];
+            int8_t rssi = (-1)*rxPacket->rssi;
 
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
-            local_time[data_counter] = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
+            int local_time = ( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec;
 
-            data_counter++;
+            int measureId = findMeasureByIdTimestamp(id, local_time);
+            if(measureId < BUFFER_SIZE) {
+                addMeasureRssi(&(memStack[measureId]), rssi);
+            } else {
+                struct Measure m;
+                m.id = id;
+                m.counter = 0;
+                addMeasureRssi(&m, rssi);
+                m.local_time = local_time;
+                memStack[rx_counter++] = m;
+            }
         }
 
         /* Toggle LED2 to indicate RX */
@@ -264,8 +310,8 @@ static void taskManagerFnx(UArg a0, UArg a1)
         EasyLink_RxPacket rxPacket = {0};
     #endif
 
-        data_counter = 0;
-        while(data_counter < BUFFER_SIZE) {
+        rx_counter = 0;
+        while(rx_counter < BUFFER_SIZE) {
     #ifdef RFEASYLINKRX_ASYNC
             EasyLink_receiveAsync(rxDoneCb, 0);
 
@@ -297,35 +343,35 @@ static void taskManagerFnx(UArg a0, UArg a1)
     #endif //RX_ASYNC
         }
 
-        //Stopping RX to send buffer
-        data_counter = 0;
-
         //Entering TX
         uint8_t txBurstSize = 0;
         uint32_t absTime;
 
         //Starting to send packets
-        uint8_t packet_counter;
-       for(packet_counter = 0; packet_counter < QT_PACKETS; packet_counter++) {
+        uint8_t tx_counter;
+       for(tx_counter = 0; tx_counter < QT_PACKETS; tx_counter++) {
             EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
 
             /* Create packet with buffer on payload */
             txPacket.payload[0] = (uint8_t)(MY_ID);
 
             uint8_t i = 1;
+            uint8_t data_counter = 0;
             while(i < RFEASYLINKTXPAYLOAD_LENGTH - 3) {
+                struct Measure m = memStack[data_counter++];
+
                 time_t t = time(NULL);
                 struct tm tm = *localtime(&t);
-                uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 + (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec) - local_time[data_counter]);
+                uint16_t deltaTime = (uint16_t)((( ( ( ( (tm.tm_year - 70)*12 + tm.tm_mon )*30 +
+                        (tm.tm_mday - 1) )*24 + tm.tm_hour )*60 + tm.tm_min )*60 + tm.tm_sec)
+                        - m.local_time);
                 uint8_t deltaTimeFirstByte = (uint8_t)(deltaTime/256);
                 uint8_t deltaTimeSecondByte = (uint8_t)(deltaTime - deltaTimeFirstByte*256);
 
-                txPacket.payload[i++] = id[data_counter];
-                txPacket.payload[i++] = rssi[data_counter];
+                txPacket.payload[i++] = m.id;
+                txPacket.payload[i++] = getAverageRssi(&m);
                 txPacket.payload[i++] = deltaTimeFirstByte;
                 txPacket.payload[i++] = deltaTimeSecondByte;
-
-                data_counter++;
             }
 
             txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
