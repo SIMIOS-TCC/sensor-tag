@@ -254,57 +254,6 @@ static void rfEasyLinkTxFnx(UArg a0, UArg a1)//GPTimerCC26XX_Handle handle, GPTi
 
 }
 
-/*
- *  Timer
- */
-
-void timerCallback(GPTimerCC26XX_Handle handle, GPTimerCC26XX_IntMask interruptMask) {
-    // interrupt callback code goes here. Minimize processing in interrupt.
-    printf("Callback\n");
-
-    EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
-
-    /* Create packet with incrementing sequence number and random payload */
-    txPacket.payload[0] = (uint8_t)(seqNumber >> 8);
-    txPacket.payload[1] = (uint8_t)(seqNumber++);
-    uint8_t i;
-    for (i = 2; i < RFEASYLINKTXPAYLOAD_LENGTH; i++)
-    {
-         txPacket.payload[i] = rand();
-    }
-    txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-    txPacket.dstAddr[0] = 0xaa;
-
-    EasyLink_transmitAsync(&txPacket, txDoneCb);
-}
-
-void taskFxnTimer(UArg a0, UArg a1) {
-  GPTimerCC26XX_Params params;
-  GPTimerCC26XX_Params_init(&params);
-  params.width          = GPT_CONFIG_16BIT;
-  params.mode           = GPT_MODE_PERIODIC_UP;
-  params.debugStallMode = GPTimerCC26XX_DEBUG_STALL_OFF;
-  hTimer = GPTimerCC26XX_open(CC1350STK_GPTIMER0A, &params);
-
-  if(hTimer == NULL) {
-    //Log_error0("Failed to open GPTimer");
-    Task_exit();
-  }
-
-  Types_FreqHz freq;
-  BIOS_getCpuFreq(&freq);
-  GPTimerCC26XX_Value loadVal = freq.lo / 1000 - 1; //47999
-  GPTimerCC26XX_setLoadValue(hTimer, loadVal);
-  GPTimerCC26XX_registerInterrupt(hTimer, timerCallback, GPT_INT_TIMEOUT);
-  //GPTimerCC26XX_registerInterrupt(hTimer, rfEasyLinkTxFnx, GPT_INT_TIMEOUT);
-
-  //while(1) {
-      printf("oi lu\n");
-      GPTimerCC26XX_start(hTimer);
-      printf("oi pedro\n");
-  //}
-}
-
 void txTask_init(PIN_Handle inPinHandle) {
     pinHandle = inPinHandle;
 
@@ -334,7 +283,6 @@ int main(void)
     PIN_setOutputValue(pinHandle, Board_PIN_LED2, 0);
 
     txTask_init(pinHandle);
-    //taskFxnTimer(NULL, NULL);
 
     /* Start BIOS */
     BIOS_start();
