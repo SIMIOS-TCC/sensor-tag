@@ -77,8 +77,8 @@
 
 #define ELECTROMAGNETIC_CTE 2.95
 #define RSSI_1M 55
-#define BUFFER_SIZE 28 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
-#define QT_PACKETS 4
+#define BUFFER_SIZE 7 // 4 pacotes : RFEASYLINKTXPAYLOAD_LENGTH/(count sending variables) = 29/4 [my_id,timestamp][id,rssi,2xtimestamp] : 7 medidas por pacote sobra 1 byte
+#define QT_PACKETS 1
 #define QT_MEASURES 10
 #define MEM_STACK_SIZE 10
 #define TIME_DELAY 1

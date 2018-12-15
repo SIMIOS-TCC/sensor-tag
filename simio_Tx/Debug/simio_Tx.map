@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v18.1.1                     
 ******************************************************************************
->> Linked Fri Nov 30 12:05:39 2018
+>> Linked Sat Dec 15 14:45:31 2018
 
 OUTPUT FILE NAME:   <simio_Tx.out>
 ENTRY POINT SYMBOL: "ResetISR"  address: 00007991
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   FLASH                 00000000   00020000  0000deba  00012146  R  X
-  SRAM                  20000000   00005000  000030e8  00001f18  RW X
+  SRAM                  20000000   00005000  000030e0  00001f20  RW X
 
 
 SEGMENT ALLOCATION MAP
@@ -162,9 +162,9 @@ run origin  load origin   length   init length attrs members
   20000200    20000200    00000004   00000000    rw- .data:xdc_runtime_Memory_Module__state__V
 20000208    20000208    00001000   00000000    r--
   20000208    20000208    00001000   00000000    r-- .priheap
-20001208    20001208    00001b1e   00000000    rw-
-  20001208    20001208    00000f56   00000000    rw- .bss
-  20002160    20002160    00000bc6   00000000    rw- .data
+20001208    20001208    00001b16   00000000    rw-
+  20001208    20001208    00000f4e   00000000    rw- .bss
+  20002158    20002158    00000bc6   00000000    rw- .data
 20004c00    20004c00    00000400   00000000    rw-
   20004c00    20004c00    00000400   00000000    rw- .stack
 
@@ -655,13 +655,13 @@ section   page    origin      length       input sections
                   000014ec    00000004     release_pem3.oem3 (.const:ti_sysbios_knl_Task_Module_State_inactiveQ__O)
 
 .cinit     0    0000d998    000004d0     
-                  0000d998    00000391     (.cinit..data.load) [load image, compression = lzss]
-                  0000dd29    00000028     (.cinit..data:ti_sysbios_family_arm_m3_Hwi_Module__state__V.load) [load image, compression = lzss]
-                  0000dd51    00000021     (.cinit..data:ti_sysbios_knl_Task_Module__state__V.load) [load image, compression = lzss]
-                  0000dd72    0000001f     (.cinit..data:ti_sysbios_BIOS_Module__state__V.load) [load image, compression = lzss]
-                  0000dd91    0000001e     (.cinit..data:ti_sysbios_knl_Clock_Module__state__V.load) [load image, compression = lzss]
-                  0000ddaf    00000010     (.cinit..data:ti_sysbios_knl_Swi_Module__state__V.load) [load image, compression = lzss]
-                  0000ddbf    00000001     --HOLE-- [fill = 0]
+                  0000d998    0000038f     (.cinit..data.load) [load image, compression = lzss]
+                  0000dd27    00000028     (.cinit..data:ti_sysbios_family_arm_m3_Hwi_Module__state__V.load) [load image, compression = lzss]
+                  0000dd4f    00000021     (.cinit..data:ti_sysbios_knl_Task_Module__state__V.load) [load image, compression = lzss]
+                  0000dd70    0000001f     (.cinit..data:ti_sysbios_BIOS_Module__state__V.load) [load image, compression = lzss]
+                  0000dd8f    0000001e     (.cinit..data:ti_sysbios_knl_Clock_Module__state__V.load) [load image, compression = lzss]
+                  0000ddad    00000010     (.cinit..data:ti_sysbios_knl_Swi_Module__state__V.load) [load image, compression = lzss]
+                  0000ddbd    00000003     --HOLE-- [fill = 0]
                   0000ddc0    0000000c     (__TI_handler_table)
                   0000ddcc    0000000b     (.cinit..data:ti_sysbios_family_arm_cc26xx_Timer_Module__state__V.load) [load image, compression = lzss]
                   0000ddd7    0000000b     (.cinit..data:xdc_runtime_System_Module__state__V.load) [load image, compression = lzss]
@@ -719,7 +719,7 @@ section   page    origin      length       input sections
 *          0    20000200    00000004     UNINITIALIZED
                   20000200    00000004     release_pem3.oem3 (.data:xdc_runtime_Memory_Module__state__V)
 
-.bss       0    20001208    00000f56     UNINITIALIZED
+.bss       0    20001208    00000f4e     UNINITIALIZED
                   20001208    00000400     rfEasyLinkTx.obj (.bss:txTaskStack)
                   20001608    00000380     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.bss:$O1$$)
                   20001988    00000200     release_pem3.oem3 (.bss:taskStackSection)
@@ -741,86 +741,86 @@ section   page    origin      length       input sections
                   200020dc    00000014     driverlib.lib : osc.obj (.bss:oscHfGlobals)
                   200020f0    00000010     EasyLink.obj (.bss:EasyLink_RF_prop)
                   20002100    00000010     EasyLink.obj (.bss:EasyLink_params)
-                  20002110    00000010     rfEasyLinkTx.obj (.bss)
-                  20002120    0000000c     rfEasyLinkTx.obj (.bss:pinState)
-                  2000212c    0000000c     EasyLink.obj (.bss:rxStatistics)
-                  20002138    00000008     dpl_cc13x0.aem3 : PowerCC26XX_tirtos.oem3 (.bss:$O1$$)
-                  20002140    00000008     EasyLink.obj (.bss:dataQueue)
-                  20002148    00000008     driverlib.lib : sys_ctrl.obj (.bss:powerQualGlobals)
-                  20002150    00000008     (.common:parmbuf)
-                  20002158    00000004     (.common:ClockP_tickPeriod)
-                  2000215c    00000001     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.bss)
-                  2000215d    00000001     (.common:driverlib_release_0_51635)
+                  20002110    0000000c     rfEasyLinkTx.obj (.bss:pinState)
+                  2000211c    0000000c     EasyLink.obj (.bss:rxStatistics)
+                  20002128    00000008     dpl_cc13x0.aem3 : PowerCC26XX_tirtos.oem3 (.bss:$O1$$)
+                  20002130    00000008     EasyLink.obj (.bss:dataQueue)
+                  20002138    00000008     driverlib.lib : sys_ctrl.obj (.bss:powerQualGlobals)
+                  20002140    00000008     rfEasyLinkTx.obj (.bss)
+                  20002148    00000008     (.common:parmbuf)
+                  20002150    00000004     (.common:ClockP_tickPeriod)
+                  20002154    00000001     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.bss)
+                  20002155    00000001     (.common:driverlib_release_0_51635)
 
-.data      0    20002160    00000bc6     UNINITIALIZED
-                  20002160    00000114     drivers_cc13x0.aem3 : PINCC26XX.oem3 (.data:$O1$$)
-                  20002274    00000114                         : PowerCC26XX.oem3 (.data:PowerCC26XX_module)
-                  20002388    000000f0     rtsv7M3_T_le_eabi.lib : defs.c.obj (.data:_ftable)
-                  20002478    00000088     rom_sysbios.aem3 : rom_sysbios.obj (.data:$O1$$)
-                  20002500    00000078     rtsv7M3_T_le_eabi.lib : write.c.obj (.data:_device)
-                  20002578    0000006c     smartrf_settings_predefined.obj (.data:pOverrides_sl_lr)
-                  200025e4    00000064     smartrf_settings_predefined.obj (.data:pOverrides_hsm)
-                  20002648    00000060     smartrf_settings_predefined.obj (.data:pOverrides_lrm)
-                  200026a8    00000060     smartrf_settings_predefined.obj (.data:pOverrides_ook)
-                  20002708    0000005c     smartrf_settings_predefined.obj (.data:pOverrides_fsk)
-                  20002764    00000058     smartrf_settings.obj (.data:pOverrides)
-                  200027bc    00000054     release_pem3.oem3 (.data:ti_sysbios_gates_GateMutex_Object__table__V)
-                  20002810    00000050     rtsv7M3_T_le_eabi.lib : write.c.obj (.data:_stream)
-                  20002860    0000004c     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Object__table__V)
-                  200028ac    00000004     rtsv7M3_T_le_eabi.lib : rand.c.obj (.data)
-                  200028b0    00000048     release_pem3.oem3 (.data:ti_sysbios_family_arm_cc26xx_Timer_Object__table__V)
-                  200028f8    00000044     smartrf_settings_predefined.obj (.data)
-                  2000293c    00000030     smartrf_settings_predefined.obj (.data:RF_cmdPropRxAdv_preDef)
-                  2000296c    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Module_State_0_readyQ__A)
-                  2000299c    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Object__table__V)
-                  200029cc    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module_State_0_readyQ__A)
-                  200029fc    00000028     smartrf_settings.obj (.data:RF_cmdPropRadioDivSetup)
-                  20002a24    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_fsk)
-                  20002a4c    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_lrm)
-                  20002a74    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_ook)
-                  20002a9c    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_sl_lr)
-                  20002ac4    00000024     smartrf_settings_predefined.obj (.data:RF_cmdRxHS)
-                  20002ae8    00000020     release_pem3.oem3 (.data:ti_sysbios_knl_Clock_Object__table__V)
-                  20002b08    00000020     release_pem3.oem3 (.data:xdc_runtime_Error_IgnoreBlock)
-                  20002b28    00000018     smartrf_settings.obj (.data:RF_cmdFs)
-                  20002b40    00000018     smartrf_settings_predefined.obj (.data:RF_cmdFs_preDef)
-                  20002b58    00000018     smartrf_settings.obj (.data:RF_cmdPropTx)
-                  20002b70    00000018     smartrf_settings_predefined.obj (.data:RF_cmdPropTx_preDef)
-                  20002b88    00000018     smartrf_settings_predefined.obj (.data:RF_cmdRadioSetup_hsm)
-                  20002ba0    00000018     EasyLink.obj (.data:addrFilterTable)
-                  20002bb8    00000018     smartrf_settings_predefined.obj (.data:shapeovr)
-                  20002bd0    00000018     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Object__table__V)
-                  20002be8    00000018     release_pem3.oem3 (.data:ti_sysbios_heaps_HeapMem_Object__table__V)
-                  20002c00    00000014     smartrf_settings_predefined.obj (.data:RF_cmdTxHS)
-                  20002c14    00000010     smartrf_settings.obj (.data:RF_prop)
-                  20002c24    00000010     smartrf_settings_predefined.obj (.data:RF_prop_fsk)
-                  20002c34    00000010     smartrf_settings_predefined.obj (.data:RF_prop_hsm)
-                  20002c44    00000010     smartrf_settings_predefined.obj (.data:RF_prop_lrm)
-                  20002c54    00000010     smartrf_settings_predefined.obj (.data:RF_prop_ook)
-                  20002c64    00000010     smartrf_settings_predefined.obj (.data:RF_prop_sl_lr)
-                  20002c74    00000010     rtsv7M3_T_le_eabi.lib : defs.c.obj (.data)
-                  20002c84    0000000f     EasyLink.obj (.data)
-                  20002c93    00000001     --HOLE--
-                  20002c94    0000000c     rtsv7M3_T_le_eabi.lib : exit.c.obj (.data:$O1$$)
-                  20002ca0    0000000c     rfEasyLinkTx.obj (.data:pinTable)
-                  20002cac    00000008     rtsv7M3_T_le_eabi.lib : _lock.c.obj (.data:$O1$$)
-                  20002cb4    00000008     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module__root__V)
-                  20002cbc    00000008     release_pem3.oem3 (.data:ti_sysbios_gates_GateHwi_Module__root__V)
-                  20002cc4    00000008     release_pem3.oem3 (.data:ti_sysbios_gates_GateMutex_Module__root__V)
-                  20002ccc    00000008     release_pem3.oem3 (.data:ti_sysbios_hal_Hwi_Module__root__V)
-                  20002cd4    00000008     release_pem3.oem3 (.data:ti_sysbios_heaps_HeapMem_Module__root__V)
-                  20002cdc    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Clock_Module__root__V)
-                  20002ce4    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Mailbox_Module__root__V)
-                  20002cec    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Queue_Module__root__V)
-                  20002cf4    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Semaphore_Module__root__V)
-                  20002cfc    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Module__root__V)
-                  20002d04    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module__root__V)
-                  20002d0c    00000008     release_pem3.oem3 (.data:xdc_runtime_System_Module_State_0_atexitHandlers__A)
-                  20002d14    00000004     rtsv7M3_T_le_eabi.lib : stkdepth_vars.c.obj (.data)
-                  20002d18    00000004     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A)
-                  20002d1c    00000004     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A)
-                  20002d20    00000004     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module_State_0_idleTask__A)
-                  20002d24    00000002     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A)
+.data      0    20002158    00000bc6     UNINITIALIZED
+                  20002158    00000114     drivers_cc13x0.aem3 : PINCC26XX.oem3 (.data:$O1$$)
+                  2000226c    00000114                         : PowerCC26XX.oem3 (.data:PowerCC26XX_module)
+                  20002380    000000f0     rtsv7M3_T_le_eabi.lib : defs.c.obj (.data:_ftable)
+                  20002470    00000088     rom_sysbios.aem3 : rom_sysbios.obj (.data:$O1$$)
+                  200024f8    00000078     rtsv7M3_T_le_eabi.lib : write.c.obj (.data:_device)
+                  20002570    0000006c     smartrf_settings_predefined.obj (.data:pOverrides_sl_lr)
+                  200025dc    00000064     smartrf_settings_predefined.obj (.data:pOverrides_hsm)
+                  20002640    00000060     smartrf_settings_predefined.obj (.data:pOverrides_lrm)
+                  200026a0    00000060     smartrf_settings_predefined.obj (.data:pOverrides_ook)
+                  20002700    0000005c     smartrf_settings_predefined.obj (.data:pOverrides_fsk)
+                  2000275c    00000058     smartrf_settings.obj (.data:pOverrides)
+                  200027b4    00000054     release_pem3.oem3 (.data:ti_sysbios_gates_GateMutex_Object__table__V)
+                  20002808    00000050     rtsv7M3_T_le_eabi.lib : write.c.obj (.data:_stream)
+                  20002858    0000004c     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Object__table__V)
+                  200028a4    00000004     rtsv7M3_T_le_eabi.lib : rand.c.obj (.data)
+                  200028a8    00000048     release_pem3.oem3 (.data:ti_sysbios_family_arm_cc26xx_Timer_Object__table__V)
+                  200028f0    00000044     smartrf_settings_predefined.obj (.data)
+                  20002934    00000030     smartrf_settings_predefined.obj (.data:RF_cmdPropRxAdv_preDef)
+                  20002964    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Module_State_0_readyQ__A)
+                  20002994    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Object__table__V)
+                  200029c4    00000030     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module_State_0_readyQ__A)
+                  200029f4    00000028     smartrf_settings.obj (.data:RF_cmdPropRadioDivSetup)
+                  20002a1c    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_fsk)
+                  20002a44    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_lrm)
+                  20002a6c    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_ook)
+                  20002a94    00000028     smartrf_settings_predefined.obj (.data:RF_cmdPropRadioDivSetup_sl_lr)
+                  20002abc    00000024     smartrf_settings_predefined.obj (.data:RF_cmdRxHS)
+                  20002ae0    00000020     release_pem3.oem3 (.data:ti_sysbios_knl_Clock_Object__table__V)
+                  20002b00    00000020     release_pem3.oem3 (.data:xdc_runtime_Error_IgnoreBlock)
+                  20002b20    00000018     smartrf_settings.obj (.data:RF_cmdFs)
+                  20002b38    00000018     smartrf_settings_predefined.obj (.data:RF_cmdFs_preDef)
+                  20002b50    00000018     smartrf_settings.obj (.data:RF_cmdPropTx)
+                  20002b68    00000018     smartrf_settings_predefined.obj (.data:RF_cmdPropTx_preDef)
+                  20002b80    00000018     smartrf_settings_predefined.obj (.data:RF_cmdRadioSetup_hsm)
+                  20002b98    00000018     EasyLink.obj (.data:addrFilterTable)
+                  20002bb0    00000018     smartrf_settings_predefined.obj (.data:shapeovr)
+                  20002bc8    00000018     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Object__table__V)
+                  20002be0    00000018     release_pem3.oem3 (.data:ti_sysbios_heaps_HeapMem_Object__table__V)
+                  20002bf8    00000014     smartrf_settings_predefined.obj (.data:RF_cmdTxHS)
+                  20002c0c    00000010     smartrf_settings.obj (.data:RF_prop)
+                  20002c1c    00000010     smartrf_settings_predefined.obj (.data:RF_prop_fsk)
+                  20002c2c    00000010     smartrf_settings_predefined.obj (.data:RF_prop_hsm)
+                  20002c3c    00000010     smartrf_settings_predefined.obj (.data:RF_prop_lrm)
+                  20002c4c    00000010     smartrf_settings_predefined.obj (.data:RF_prop_ook)
+                  20002c5c    00000010     smartrf_settings_predefined.obj (.data:RF_prop_sl_lr)
+                  20002c6c    00000010     rtsv7M3_T_le_eabi.lib : defs.c.obj (.data)
+                  20002c7c    0000000f     EasyLink.obj (.data)
+                  20002c8b    00000001     --HOLE--
+                  20002c8c    0000000c     rtsv7M3_T_le_eabi.lib : exit.c.obj (.data:$O1$$)
+                  20002c98    0000000c     rfEasyLinkTx.obj (.data:pinTable)
+                  20002ca4    00000008     rtsv7M3_T_le_eabi.lib : _lock.c.obj (.data:$O1$$)
+                  20002cac    00000008     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module__root__V)
+                  20002cb4    00000008     release_pem3.oem3 (.data:ti_sysbios_gates_GateHwi_Module__root__V)
+                  20002cbc    00000008     release_pem3.oem3 (.data:ti_sysbios_gates_GateMutex_Module__root__V)
+                  20002cc4    00000008     release_pem3.oem3 (.data:ti_sysbios_hal_Hwi_Module__root__V)
+                  20002ccc    00000008     release_pem3.oem3 (.data:ti_sysbios_heaps_HeapMem_Module__root__V)
+                  20002cd4    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Clock_Module__root__V)
+                  20002cdc    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Mailbox_Module__root__V)
+                  20002ce4    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Queue_Module__root__V)
+                  20002cec    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Semaphore_Module__root__V)
+                  20002cf4    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Swi_Module__root__V)
+                  20002cfc    00000008     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module__root__V)
+                  20002d04    00000008     release_pem3.oem3 (.data:xdc_runtime_System_Module_State_0_atexitHandlers__A)
+                  20002d0c    00000004     rtsv7M3_T_le_eabi.lib : stkdepth_vars.c.obj (.data)
+                  20002d10    00000004     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A)
+                  20002d14    00000004     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A)
+                  20002d18    00000004     release_pem3.oem3 (.data:ti_sysbios_knl_Task_Module_State_0_idleTask__A)
+                  20002d1c    00000002     release_pem3.oem3 (.data:ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A)
 
 .priheap   0    20000208    00001000     UNINITIALIZED
                   20000208    00001000     --HOLE--
@@ -1327,11 +1327,11 @@ MODULE SUMMARY
        Module                            code    ro data   rw data
        ------                            ----    -------   -------
     .\
-       rfEasyLinkTx.obj                  840     144       1204   
+       rfEasyLinkTx.obj                  840     144       1196   
        CC1350STK.obj                     300     172       0      
        ccfg.obj                          0       88        0      
     +--+---------------------------------+-------+---------+---------+
-       Total:                            1140    404       1204   
+       Total:                            1140    404       1196   
                                                                   
     .\easylink\
        EasyLink.obj                      2278    16        647    
@@ -1466,23 +1466,23 @@ MODULE SUMMARY
        Total:                            68      0         0      
                                                                   
        Stack:                            0       0         1024   
-       Linker Generated:                 408     1223      0      
+       Linker Generated:                 408     1221      0      
     +--+---------------------------------+-------+---------+---------+
-       Grand Total:                      36227   20776     8423   
+       Grand Total:                      36227   20774     8415   
 
 
 LINKER GENERATED COPY TABLES
 
 __TI_cinit_table @ 0000de08 records: 12, size/record: 8, table size: 96
-	.data: load addr=0000d998, load size=00000391 bytes, run addr=20002160, run size=00000bc6 bytes, compression=lzss
-	.data:ti_sysbios_family_arm_m3_Hwi_Module__state__V: load addr=0000dd29, load size=00000028 bytes, run addr=20000144, run size=00000034 bytes, compression=lzss
-	.data:ti_sysbios_knl_Task_Module__state__V: load addr=0000dd51, load size=00000021 bytes, run addr=20000100, run size=00000044 bytes, compression=lzss
-	.data:ti_sysbios_BIOS_Module__state__V: load addr=0000dd72, load size=0000001f bytes, run addr=200001a4, run size=00000024 bytes, compression=lzss
-	.data:ti_sysbios_knl_Clock_Module__state__V: load addr=0000dd91, load size=0000001e bytes, run addr=20000178, run size=0000002c bytes, compression=lzss
-	.data:ti_sysbios_knl_Swi_Module__state__V: load addr=0000ddaf, load size=00000010 bytes, run addr=200001c8, run size=0000001c bytes, compression=lzss
+	.data: load addr=0000d998, load size=0000038f bytes, run addr=20002158, run size=00000bc6 bytes, compression=lzss
+	.data:ti_sysbios_family_arm_m3_Hwi_Module__state__V: load addr=0000dd27, load size=00000028 bytes, run addr=20000144, run size=00000034 bytes, compression=lzss
+	.data:ti_sysbios_knl_Task_Module__state__V: load addr=0000dd4f, load size=00000021 bytes, run addr=20000100, run size=00000044 bytes, compression=lzss
+	.data:ti_sysbios_BIOS_Module__state__V: load addr=0000dd70, load size=0000001f bytes, run addr=200001a4, run size=00000024 bytes, compression=lzss
+	.data:ti_sysbios_knl_Clock_Module__state__V: load addr=0000dd8f, load size=0000001e bytes, run addr=20000178, run size=0000002c bytes, compression=lzss
+	.data:ti_sysbios_knl_Swi_Module__state__V: load addr=0000ddad, load size=00000010 bytes, run addr=200001c8, run size=0000001c bytes, compression=lzss
 	.data:ti_sysbios_family_arm_cc26xx_Timer_Module__state__V: load addr=0000ddcc, load size=0000000b bytes, run addr=200001e4, run size=00000008 bytes, compression=lzss
 	.data:xdc_runtime_System_Module__state__V: load addr=0000ddd7, load size=0000000b bytes, run addr=200001f8, run size=00000008 bytes, compression=lzss
-	.bss: load addr=0000dde8, load size=00000008 bytes, run addr=20001208, run size=00000f56 bytes, compression=zero_init
+	.bss: load addr=0000dde8, load size=00000008 bytes, run addr=20001208, run size=00000f4e bytes, compression=zero_init
 	.data:xdc_runtime_Memory_Module__state__V: load addr=0000ddf0, load size=00000008 bytes, run addr=20000200, run size=00000004 bytes, compression=lzss
 	.data:ti_sysbios_family_arm_cc26xx_TimestampProvider_Module__state__V: load addr=0000ddf8, load size=00000007 bytes, run addr=200001ec, run size=00000004 bytes, compression=lzss
 	.data:xdc_runtime_Startup_Module__state__V: load addr=0000ddff, load size=00000007 bytes, run addr=200001f0, run size=00000008 bytes, compression=lzss
@@ -1699,7 +1699,7 @@ address   name
 000090d3  ClockP_setTimeout                                                         
 000090d7  ClockP_start                                                              
 000090db  ClockP_stop                                                               
-20002158  ClockP_tickPeriod                                                         
+20002150  ClockP_tickPeriod                                                         
 00008d9d  EasyLink_Params_init                                                      
 000058ad  EasyLink_abort                                                            
 00008485  EasyLink_getAbsTime                                                       
@@ -1801,13 +1801,13 @@ address   name
 00002cad  PowerCC26XX_doCalibrate                                                   
 000066a9  PowerCC26XX_initiateCalibration                                           
 00007c49  PowerCC26XX_isStableXOSC_HF                                               
-20002274  PowerCC26XX_module                                                        
+2000226c  PowerCC26XX_module                                                        
 00008785  PowerCC26XX_schedulerDisable                                              
 000087a5  PowerCC26XX_schedulerRestore                                              
 00004859  PowerCC26XX_standbyPolicy                                                 
-2000213c  PowerCC26XX_swiKey                                                        
+2000212c  PowerCC26XX_swiKey                                                        
 000090f7  PowerCC26XX_switchXOSC_HF                                                 
-20002138  PowerCC26XX_taskKey                                                       
+20002128  PowerCC26XX_taskKey                                                       
 00009001  Power_getConstraintMask                                                   
 0000900d  Power_getDependencyCount                                                  
 00008903  Power_getTransitionLatency                                                
@@ -1825,49 +1825,49 @@ address   name
 0000745d  RF_TxPowerTable_findValue                                                 
 00004499  RF_cancelCmd                                                              
 0000429d  RF_close                                                                  
-20002b28  RF_cmdFs                                                                  
-20002b40  RF_cmdFs_preDef                                                           
-200029fc  RF_cmdPropRadioDivSetup                                                   
-20002a24  RF_cmdPropRadioDivSetup_fsk                                               
-20002a4c  RF_cmdPropRadioDivSetup_lrm                                               
-20002a74  RF_cmdPropRadioDivSetup_ook                                               
-20002a9c  RF_cmdPropRadioDivSetup_sl_lr                                             
-2000293c  RF_cmdPropRxAdv_preDef                                                    
-20002b58  RF_cmdPropTx                                                              
-20002b70  RF_cmdPropTx_preDef                                                       
-20002b88  RF_cmdRadioSetup_hsm                                                      
-20002ac4  RF_cmdRxHS                                                                
-20002c00  RF_cmdTxHS                                                                
+20002b20  RF_cmdFs                                                                  
+20002b38  RF_cmdFs_preDef                                                           
+200029f4  RF_cmdPropRadioDivSetup                                                   
+20002a1c  RF_cmdPropRadioDivSetup_fsk                                               
+20002a44  RF_cmdPropRadioDivSetup_lrm                                               
+20002a6c  RF_cmdPropRadioDivSetup_ook                                               
+20002a94  RF_cmdPropRadioDivSetup_sl_lr                                             
+20002934  RF_cmdPropRxAdv_preDef                                                    
+20002b50  RF_cmdPropTx                                                              
+20002b68  RF_cmdPropTx_preDef                                                       
+20002b80  RF_cmdRadioSetup_hsm                                                      
+20002abc  RF_cmdRxHS                                                                
+20002bf8  RF_cmdTxHS                                                                
 00006e31  RF_getCurrentTime                                                         
 0000221d  RF_open                                                                   
-20002930  RF_pCmdFs_preDef                                                          
-20002910  RF_pCmdPropRadioDivSetup_fsk                                              
-20002914  RF_pCmdPropRadioDivSetup_lrm                                              
-20002918  RF_pCmdPropRadioDivSetup_ook                                              
-20002920  RF_pCmdPropRadioDivSetup_sl_lr                                            
-20002924  RF_pCmdPropRadioSetup_2_4G_fsk                                            
-20002938  RF_pCmdPropRxAdv_preDef                                                   
-20002934  RF_pCmdPropTx_preDef                                                      
-2000291c  RF_pCmdRadioSetup_hsm                                                     
-2000292c  RF_pCmdRxHS                                                               
-20002928  RF_pCmdTxHS                                                               
-2000290c  RF_pProp_2_4G_fsk                                                         
-200028f8  RF_pProp_fsk                                                              
-20002904  RF_pProp_hsm                                                              
-200028fc  RF_pProp_lrm                                                              
-20002900  RF_pProp_ook                                                              
-20002908  RF_pProp_sl_lr                                                            
+20002928  RF_pCmdFs_preDef                                                          
+20002908  RF_pCmdPropRadioDivSetup_fsk                                              
+2000290c  RF_pCmdPropRadioDivSetup_lrm                                              
+20002910  RF_pCmdPropRadioDivSetup_ook                                              
+20002918  RF_pCmdPropRadioDivSetup_sl_lr                                            
+2000291c  RF_pCmdPropRadioSetup_2_4G_fsk                                            
+20002930  RF_pCmdPropRxAdv_preDef                                                   
+2000292c  RF_pCmdPropTx_preDef                                                      
+20002914  RF_pCmdRadioSetup_hsm                                                     
+20002924  RF_pCmdRxHS                                                               
+20002920  RF_pCmdTxHS                                                               
+20002904  RF_pProp_2_4G_fsk                                                         
+200028f0  RF_pProp_fsk                                                              
+200028fc  RF_pProp_hsm                                                              
+200028f4  RF_pProp_lrm                                                              
+200028f8  RF_pProp_ook                                                              
+20002900  RF_pProp_sl_lr                                                            
 0000467d  RF_pendCmd                                                                
 000059f5  RF_postCmd                                                                
 00009019  RF_powerConstraintGet                                                     
 00007ef1  RF_powerConstraintRelease                                                 
 000089e5  RF_powerConstraintSet                                                     
-20002c14  RF_prop                                                                   
-20002c24  RF_prop_fsk                                                               
-20002c34  RF_prop_hsm                                                               
-20002c44  RF_prop_lrm                                                               
-20002c54  RF_prop_ook                                                               
-20002c64  RF_prop_sl_lr                                                             
+20002c0c  RF_prop                                                                   
+20002c1c  RF_prop_fsk                                                               
+20002c2c  RF_prop_hsm                                                               
+20002c3c  RF_prop_lrm                                                               
+20002c4c  RF_prop_ook                                                               
+20002c5c  RF_prop_sl_lr                                                             
 000084fd  RF_runCmd                                                                 
 00002af9  RF_scheduleCmd                                                            
 00007a99  RF_setTxPower                                                             
@@ -1899,14 +1899,14 @@ UNDEFED   SHT$$INIT_ARRAY$$Limit
 0000ddcc  __TI_Handler_Table_Limit                                                  
 00005be1  __TI_auto_init                                                            
 00007f8d  __TI_cleanup                                                              
-20002c94  __TI_cleanup_ptr                                                          
+20002c8c  __TI_cleanup_ptr                                                          
 000065c5  __TI_closefile                                                            
 00006985  __TI_decompress_lzss                                                      
 00008fbf  __TI_decompress_none                                                      
 00007795  __TI_doflush                                                              
-20002c98  __TI_dtors_ptr                                                            
-20002c9c  __TI_enable_exit_profile_output                                           
-20002c74  __TI_ft_end                                                               
+20002c90  __TI_dtors_ptr                                                            
+20002c94  __TI_enable_exit_profile_output                                           
+20002c6c  __TI_ft_end                                                               
 ffffffff  __TI_pprof_out_hndl                                                       
 0000003d  __TI_printfi                                                              
 ffffffff  __TI_prof_data_size                                                       
@@ -1940,9 +1940,9 @@ ffffffff  __TI_prof_data_start
 000064d7  __aeabi_memset                                                            
 000064d7  __aeabi_memset4                                                           
 000064d7  __aeabi_memset8                                                           
-20002c80  __aeabi_stderr                                                            
-20002c78  __aeabi_stdin                                                             
-20002c7c  __aeabi_stdout                                                            
+20002c78  __aeabi_stderr                                                            
+20002c70  __aeabi_stdin                                                             
+20002c74  __aeabi_stdout                                                            
 00005f81  __aeabi_uldivmod                                                          
 ffffffff  __binit__                                                                 
 ffffffff  __c_args__                                                                
@@ -1953,22 +1953,22 @@ ffffffff  __c_args__
 00008c2d  _args_main                                                                
 00007991  _c_int00                                                                  
 0000d5c0  _ctypes_                                                                  
-20002500  _device                                                                   
-20002388  _ftable                                                                   
-20002cac  _lock                                                                     
+200024f8  _device                                                                   
+20002380  _ftable                                                                   
+20002ca4  _lock                                                                     
 00001405  _nop                                                                      
 0000862d  _pthread_cleanupFxn                                                       
 00009025  _register_lock                                                            
 00009031  _register_unlock                                                          
-20002810  _stream                                                                   
-20002cb0  _unlock                                                                   
+20002808  _stream                                                                   
+20002ca8  _unlock                                                                   
 000077e1  atoi                                                                      
 ffffffff  binit                                                                     
 000071e5  close                                                                     
 0000782d  copy_in                                                                   
 00009083  copysign                                                                  
 00009083  copysignl                                                                 
-2000215d  driverlib_release_0_51635                                                 
+20002155  driverlib_release_0_51635                                                 
 00008155  finddevice                                                                
 00006139  fputc                                                                     
 00004075  fputs                                                                     
@@ -1982,23 +1982,23 @@ ffffffff  binit
 0000854d  lseek                                                                     
 00007563  ltoa                                                                      
 00005545  main                                                                      
-20002d14  main_func_sp                                                              
+20002d0c  main_func_sp                                                              
 00008271  malloc                                                                    
 00008ac3  memccpy                                                                   
 00008845  memchr                                                                    
 00005c81  memcpy                                                                    
 000064dd  memset                                                                    
-20002764  pOverrides                                                                
-20002708  pOverrides_fsk                                                            
-200025e4  pOverrides_hsm                                                            
-20002648  pOverrides_lrm                                                            
-200026a8  pOverrides_ook                                                            
-20002578  pOverrides_sl_lr                                                          
-20002150  parmbuf                                                                   
-200021f8  pinHandleTable                                                            
-20002164  pinLowerBound                                                             
-20002ca0  pinTable                                                                  
-20002160  pinUpperBound                                                             
+2000275c  pOverrides                                                                
+20002700  pOverrides_fsk                                                            
+200025dc  pOverrides_hsm                                                            
+20002640  pOverrides_lrm                                                            
+200026a0  pOverrides_ook                                                            
+20002570  pOverrides_sl_lr                                                          
+20002148  parmbuf                                                                   
+200021f0  pinHandleTable                                                            
+2000215c  pinLowerBound                                                             
+20002c98  pinTable                                                                  
+20002158  pinUpperBound                                                             
 00006a55  printf                                                                    
 00006139  putc                                                                      
 00008029  rand                                                                      
@@ -2007,7 +2007,7 @@ ffffffff  binit
 00004f2d  scalbn                                                                    
 00004f2d  scalbnl                                                                   
 00004af9  setvbuf                                                                   
-20002bb8  shapeovr                                                                  
+20002bb0  shapeovr                                                                  
 00008d19  strchr                                                                    
 00008c5d  strcmp                                                                    
 00008d2f  strcpy                                                                    
@@ -2042,7 +2042,7 @@ ffffffff  binit
 1001bb45  ti_sysbios_family_arm_cc26xx_Timer_Module__startupDone__S                 
 200001e4  ti_sysbios_family_arm_cc26xx_Timer_Module__state__V                       
 1001ba6d  ti_sysbios_family_arm_cc26xx_Timer_Module_startup__E                      
-200028b0  ti_sysbios_family_arm_cc26xx_Timer_Object__table__V                       
+200028a8  ti_sysbios_family_arm_cc26xx_Timer_Object__table__V                       
 00008885  ti_sysbios_family_arm_cc26xx_Timer_dynamicStub__E                         
 0000d974  ti_sysbios_family_arm_cc26xx_Timer_funcHookCH1__C                         
 0000d978  ti_sysbios_family_arm_cc26xx_Timer_funcHookCH2__C                         
@@ -2070,11 +2070,11 @@ ffffffff  binit
 0000138c  ti_sysbios_family_arm_m3_Hwi_E_hwiLimitExceeded__C                        
 1001aed1  ti_sysbios_family_arm_m3_Hwi_Instance_finalize__E                         
 1001a3c5  ti_sysbios_family_arm_m3_Hwi_Instance_init__E                             
-20002d24  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A                  
-20002d18  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A                 
-20002d1c  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A                   
+20002d1c  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A                  
+20002d10  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A                 
+20002d14  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A                   
 0000140a  ti_sysbios_family_arm_m3_Hwi_Module__id__C                                
-20002cb4  ti_sysbios_family_arm_m3_Hwi_Module__root__V                              
+20002cac  ti_sysbios_family_arm_m3_Hwi_Module__root__V                              
 1001bb85  ti_sysbios_family_arm_m3_Hwi_Module__startupDone__S                       
 20000144  ti_sysbios_family_arm_m3_Hwi_Module__state__V                             
 1001b1c1  ti_sysbios_family_arm_m3_Hwi_Module_startup__E                            
@@ -2087,7 +2087,7 @@ ffffffff  binit
 1001be65  ti_sysbios_family_arm_m3_Hwi_Object__destruct__S                          
 1001b7bd  ti_sysbios_family_arm_m3_Hwi_Object__get__S                               
 00001398  ti_sysbios_family_arm_m3_Hwi_Object__table__C                             
-20002bd0  ti_sysbios_family_arm_m3_Hwi_Object__table__V                             
+20002bc8  ti_sysbios_family_arm_m3_Hwi_Object__table__V                             
 1001c139  ti_sysbios_family_arm_m3_Hwi_Params__init__S                              
 0000139c  ti_sysbios_family_arm_m3_Hwi_ccr__C                                       
 1001af29  ti_sysbios_family_arm_m3_Hwi_construct                                    
@@ -2140,7 +2140,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001b45f  ti_sysbios_gates_GateHwi_Instance_init__E                                 
 0000111c  ti_sysbios_gates_GateHwi_Module__FXNS__C                                  
 0000140c  ti_sysbios_gates_GateHwi_Module__id__C                                    
-20002cbc  ti_sysbios_gates_GateHwi_Module__root__V                                  
+20002cb4  ti_sysbios_gates_GateHwi_Module__root__V                                  
 000011f0  ti_sysbios_gates_GateHwi_Object__DESC__C                                  
 00001330  ti_sysbios_gates_GateHwi_Object__PARAMS__C                                
 1001ba91  ti_sysbios_gates_GateHwi_Object__create__S                                
@@ -2154,13 +2154,13 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001be9d  ti_sysbios_gates_GateMutex_Instance_init__E                               
 00001140  ti_sysbios_gates_GateMutex_Module__FXNS__C                                
 0000140e  ti_sysbios_gates_GateMutex_Module__id__C                                  
-20002cc4  ti_sysbios_gates_GateMutex_Module__root__V                                
+20002cbc  ti_sysbios_gates_GateMutex_Module__root__V                                
 00001210  ti_sysbios_gates_GateMutex_Object__DESC__C                                
 00001348  ti_sysbios_gates_GateMutex_Object__PARAMS__C                              
 1001b645  ti_sysbios_gates_GateMutex_Object__create__S                              
 1001bab5  ti_sysbios_gates_GateMutex_Object__delete__S                              
 1001bc45  ti_sysbios_gates_GateMutex_Object__destruct__S                            
-200027bc  ti_sysbios_gates_GateMutex_Object__table__V                               
+200027b4  ti_sysbios_gates_GateMutex_Object__table__V                               
 1001c175  ti_sysbios_gates_GateMutex_Params__init__S                                
 1001b7e9  ti_sysbios_gates_GateMutex_construct                                      
 1001b675  ti_sysbios_gates_GateMutex_create                                         
@@ -2190,7 +2190,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001c009  ti_sysbios_hal_Hwi_HwiProxy_switchFromBootStack__E__mangled__             
 1001c1ed  ti_sysbios_hal_Hwi_Instance_finalize__E                                   
 1001b9f5  ti_sysbios_hal_Hwi_Instance_init__E                                       
-20002ccc  ti_sysbios_hal_Hwi_Module__root__V                                        
+20002cc4  ti_sysbios_hal_Hwi_Module__root__V                                        
 1001c01d  ti_sysbios_hal_Hwi_Module_startup__E                                      
 00001230  ti_sysbios_hal_Hwi_Object__DESC__C                                        
 000010a0  ti_sysbios_hal_Hwi_Object__PARAMS__C                                      
@@ -2224,7 +2224,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 000010cc  ti_sysbios_heaps_HeapMem_Module__FXNS__C                                  
 000013b8  ti_sysbios_heaps_HeapMem_Module__gateObj__C                               
 00001410  ti_sysbios_heaps_HeapMem_Module__id__C                                    
-20002cd4  ti_sysbios_heaps_HeapMem_Module__root__V                                  
+20002ccc  ti_sysbios_heaps_HeapMem_Module__root__V                                  
 00001250  ti_sysbios_heaps_HeapMem_Object__DESC__C                                  
 00001164  ti_sysbios_heaps_HeapMem_Object__PARAMS__C                                
 000013bc  ti_sysbios_heaps_HeapMem_Object__count__C                                 
@@ -2232,7 +2232,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001bca5  ti_sysbios_heaps_HeapMem_Object__delete__S                                
 1001b86d  ti_sysbios_heaps_HeapMem_Object__get__S                                   
 000013c0  ti_sysbios_heaps_HeapMem_Object__table__C                                 
-20002be8  ti_sysbios_heaps_HeapMem_Object__table__V                                 
+20002be0  ti_sysbios_heaps_HeapMem_Object__table__V                                 
 1001a195  ti_sysbios_heaps_HeapMem_alloc__E                                         
 1001a791  ti_sysbios_heaps_HeapMem_free__E                                          
 1001b209  ti_sysbios_heaps_HeapMem_getStats__E                                      
@@ -2246,14 +2246,14 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001bfc9  ti_sysbios_knl_Clock_Instance_finalize__E                                 
 1001b509  ti_sysbios_knl_Clock_Instance_init__E                                     
 000014d4  ti_sysbios_knl_Clock_Module_State_clockQ__O                               
-20002cdc  ti_sysbios_knl_Clock_Module__root__V                                      
+20002cd4  ti_sysbios_knl_Clock_Module__root__V                                      
 20000178  ti_sysbios_knl_Clock_Module__state__V                                     
 1001bcc5  ti_sysbios_knl_Clock_Module_startup__E                                    
 00001270  ti_sysbios_knl_Clock_Object__DESC__C                                      
 00001188  ti_sysbios_knl_Clock_Object__PARAMS__C                                    
 1001bad9  ti_sysbios_knl_Clock_Object__delete__S                                    
 1001bce5  ti_sysbios_knl_Clock_Object__destruct__S                                  
-20002ae8  ti_sysbios_knl_Clock_Object__table__V                                     
+20002ae0  ti_sysbios_knl_Clock_Object__table__V                                     
 1001c181  ti_sysbios_knl_Clock_Params__init__S                                      
 1001c2a5  ti_sysbios_knl_Clock_TimerProxy_Module__startupDone__S                    
 1001bb45  ti_sysbios_knl_Clock_TimerProxy_Module__startupDone__S__mangled__         
@@ -2300,7 +2300,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 000014e4  ti_sysbios_knl_Mailbox_Instance_State_freeSem__O                          
 1001a8f9  ti_sysbios_knl_Mailbox_Instance_finalize__E                               
 1001a0cd  ti_sysbios_knl_Mailbox_Instance_init__E                                   
-20002ce4  ti_sysbios_knl_Mailbox_Module__root__V                                    
+20002cdc  ti_sysbios_knl_Mailbox_Module__root__V                                    
 1001b2d9  ti_sysbios_knl_Mailbox_Module_startup__E                                  
 00001290  ti_sysbios_knl_Mailbox_Object__DESC__C                                    
 0000103c  ti_sysbios_knl_Mailbox_Object__PARAMS__C                                  
@@ -2319,7 +2319,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001b8c5  ti_sysbios_knl_Mailbox_postInit__I                                        
 1001a58d  ti_sysbios_knl_Mailbox_post__E                                            
 1001c227  ti_sysbios_knl_Queue_Instance_init__E                                     
-20002cec  ti_sysbios_knl_Queue_Module__root__V                                      
+20002ce4  ti_sysbios_knl_Queue_Module__root__V                                      
 000012b0  ti_sysbios_knl_Queue_Object__DESC__C                                      
 00001360  ti_sysbios_knl_Queue_Object__PARAMS__C                                    
 000013d8  ti_sysbios_knl_Queue_Object__count__C                                     
@@ -2343,7 +2343,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 000014e8  ti_sysbios_knl_Semaphore_Instance_State_pendQ__O                          
 1001c0c1  ti_sysbios_knl_Semaphore_Instance_finalize__E                             
 1001bafd  ti_sysbios_knl_Semaphore_Instance_init__E                                 
-20002cf4  ti_sysbios_knl_Semaphore_Module__root__V                                  
+20002cec  ti_sysbios_knl_Semaphore_Module__root__V                                  
 000012d0  ti_sysbios_knl_Semaphore_Object__DESC__C                                  
 000011ac  ti_sysbios_knl_Semaphore_Object__PARAMS__C                                
 1001bb21  ti_sysbios_knl_Semaphore_Object__delete__S                                
@@ -2358,8 +2358,8 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001ac41  ti_sysbios_knl_Semaphore_post__E                                          
 1001bf97  ti_sysbios_knl_Swi_Instance_finalize__E                                   
 1001aca5  ti_sysbios_knl_Swi_Instance_init__E                                       
-2000296c  ti_sysbios_knl_Swi_Module_State_0_readyQ__A                               
-20002cfc  ti_sysbios_knl_Swi_Module__root__V                                        
+20002964  ti_sysbios_knl_Swi_Module_State_0_readyQ__A                               
+20002cf4  ti_sysbios_knl_Swi_Module__root__V                                        
 200001c8  ti_sysbios_knl_Swi_Module__state__V                                       
 1001c233  ti_sysbios_knl_Swi_Module_startup__E                                      
 000012f0  ti_sysbios_knl_Swi_Object__DESC__C                                        
@@ -2369,7 +2369,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001bf45  ti_sysbios_knl_Swi_Object__destruct__S                                    
 1001b975  ti_sysbios_knl_Swi_Object__get__S                                         
 000013e4  ti_sysbios_knl_Swi_Object__table__C                                       
-2000299c  ti_sysbios_knl_Swi_Object__table__V                                       
+20002994  ti_sysbios_knl_Swi_Object__table__V                                       
 1001c1c9  ti_sysbios_knl_Swi_Params__init__S                                        
 1001b085  ti_sysbios_knl_Swi_construct                                              
 00008a8d  ti_sysbios_knl_Swi_construct2__E                                          
@@ -2392,10 +2392,10 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 20001988  ti_sysbios_knl_Task_Instance_State_0_stack__A                             
 1001a4f9  ti_sysbios_knl_Task_Instance_finalize__E                                  
 1001a259  ti_sysbios_knl_Task_Instance_init__E                                      
-20002d20  ti_sysbios_knl_Task_Module_State_0_idleTask__A                            
-200029cc  ti_sysbios_knl_Task_Module_State_0_readyQ__A                              
+20002d18  ti_sysbios_knl_Task_Module_State_0_idleTask__A                            
+200029c4  ti_sysbios_knl_Task_Module_State_0_readyQ__A                              
 000014ec  ti_sysbios_knl_Task_Module_State_inactiveQ__O                             
-20002d04  ti_sysbios_knl_Task_Module__root__V                                       
+20002cfc  ti_sysbios_knl_Task_Module__root__V                                       
 20000100  ti_sysbios_knl_Task_Module__state__V                                      
 1001adbd  ti_sysbios_knl_Task_Module_startup__E                                     
 00001310  ti_sysbios_knl_Task_Object__DESC__C                                       
@@ -2406,7 +2406,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001bde5  ti_sysbios_knl_Task_Object__get__S                                        
 0000d994  ti_sysbios_knl_Task_Object__heap__C                                       
 000013f0  ti_sysbios_knl_Task_Object__table__C                                      
-20002860  ti_sysbios_knl_Task_Object__table__V                                      
+20002858  ti_sysbios_knl_Task_Object__table__V                                      
 1001c1d5  ti_sysbios_knl_Task_Params__init__S                                       
 1001c2ed  ti_sysbios_knl_Task_SupportProxy_Module__startupDone__S                   
 1001c261  ti_sysbios_knl_Task_SupportProxy_Module__startupDone__S__mangled__        
@@ -2481,7 +2481,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001c4f5  xdc_runtime_Core_deleteObject__I                                          
 1001c79d  xdc_runtime_Core_destructObject__I                                        
 0000142c  xdc_runtime_Error_E_memory__C                                             
-20002b08  xdc_runtime_Error_IgnoreBlock                                             
+20002b00  xdc_runtime_Error_IgnoreBlock                                             
 1001c7b5  xdc_runtime_Error_check__E                                                
 00008cd5  xdc_runtime_Error_init__E                                                 
 00001430  xdc_runtime_Error_policyFxn__C                                            
@@ -2545,7 +2545,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 1001c891  xdc_runtime_System_Module_GateProxy_leave__E                              
 1001c265  xdc_runtime_System_Module_GateProxy_query__E                              
 1001c265  xdc_runtime_System_Module_GateProxy_query__E__mangled__                   
-20002d0c  xdc_runtime_System_Module_State_0_atexitHandlers__A                       
+20002d04  xdc_runtime_System_Module_State_0_atexitHandlers__A                       
 200001f8  xdc_runtime_System_Module__state__V                                       
 1001c87b  xdc_runtime_System_Module_startup__E                                      
 1001c80d  xdc_runtime_System_SupportProxy_abort__E                                  
@@ -3379,98 +3379,98 @@ address   name
 20001d70  ti_sysbios_family_arm_m3_Hwi_dispatchTable                                
 20001e38  __TI_tmpnams                                                              
 20001f64  txTask                                                                    
-20002138  PowerCC26XX_taskKey                                                       
-2000213c  PowerCC26XX_swiKey                                                        
-20002150  parmbuf                                                                   
-20002158  ClockP_tickPeriod                                                         
-2000215d  driverlib_release_0_51635                                                 
-20002160  pinUpperBound                                                             
-20002164  pinLowerBound                                                             
-200021f8  pinHandleTable                                                            
-20002274  PowerCC26XX_module                                                        
-20002388  _ftable                                                                   
-20002500  _device                                                                   
-20002578  pOverrides_sl_lr                                                          
-200025e4  pOverrides_hsm                                                            
-20002648  pOverrides_lrm                                                            
-200026a8  pOverrides_ook                                                            
-20002708  pOverrides_fsk                                                            
-20002764  pOverrides                                                                
-200027bc  ti_sysbios_gates_GateMutex_Object__table__V                               
-20002810  _stream                                                                   
-20002860  ti_sysbios_knl_Task_Object__table__V                                      
-200028b0  ti_sysbios_family_arm_cc26xx_Timer_Object__table__V                       
-200028f8  RF_pProp_fsk                                                              
-200028fc  RF_pProp_lrm                                                              
-20002900  RF_pProp_ook                                                              
-20002904  RF_pProp_hsm                                                              
-20002908  RF_pProp_sl_lr                                                            
-2000290c  RF_pProp_2_4G_fsk                                                         
-20002910  RF_pCmdPropRadioDivSetup_fsk                                              
-20002914  RF_pCmdPropRadioDivSetup_lrm                                              
-20002918  RF_pCmdPropRadioDivSetup_ook                                              
-2000291c  RF_pCmdRadioSetup_hsm                                                     
-20002920  RF_pCmdPropRadioDivSetup_sl_lr                                            
-20002924  RF_pCmdPropRadioSetup_2_4G_fsk                                            
-20002928  RF_pCmdTxHS                                                               
-2000292c  RF_pCmdRxHS                                                               
-20002930  RF_pCmdFs_preDef                                                          
-20002934  RF_pCmdPropTx_preDef                                                      
-20002938  RF_pCmdPropRxAdv_preDef                                                   
-2000293c  RF_cmdPropRxAdv_preDef                                                    
-2000296c  ti_sysbios_knl_Swi_Module_State_0_readyQ__A                               
-2000299c  ti_sysbios_knl_Swi_Object__table__V                                       
-200029cc  ti_sysbios_knl_Task_Module_State_0_readyQ__A                              
-200029fc  RF_cmdPropRadioDivSetup                                                   
-20002a24  RF_cmdPropRadioDivSetup_fsk                                               
-20002a4c  RF_cmdPropRadioDivSetup_lrm                                               
-20002a74  RF_cmdPropRadioDivSetup_ook                                               
-20002a9c  RF_cmdPropRadioDivSetup_sl_lr                                             
-20002ac4  RF_cmdRxHS                                                                
-20002ae8  ti_sysbios_knl_Clock_Object__table__V                                     
-20002b08  xdc_runtime_Error_IgnoreBlock                                             
-20002b28  RF_cmdFs                                                                  
-20002b40  RF_cmdFs_preDef                                                           
-20002b58  RF_cmdPropTx                                                              
-20002b70  RF_cmdPropTx_preDef                                                       
-20002b88  RF_cmdRadioSetup_hsm                                                      
-20002bb8  shapeovr                                                                  
-20002bd0  ti_sysbios_family_arm_m3_Hwi_Object__table__V                             
-20002be8  ti_sysbios_heaps_HeapMem_Object__table__V                                 
-20002c00  RF_cmdTxHS                                                                
-20002c14  RF_prop                                                                   
-20002c24  RF_prop_fsk                                                               
-20002c34  RF_prop_hsm                                                               
-20002c44  RF_prop_lrm                                                               
-20002c54  RF_prop_ook                                                               
-20002c64  RF_prop_sl_lr                                                             
-20002c74  __TI_ft_end                                                               
-20002c78  __aeabi_stdin                                                             
-20002c7c  __aeabi_stdout                                                            
-20002c80  __aeabi_stderr                                                            
-20002c94  __TI_cleanup_ptr                                                          
-20002c98  __TI_dtors_ptr                                                            
-20002c9c  __TI_enable_exit_profile_output                                           
-20002ca0  pinTable                                                                  
-20002cac  _lock                                                                     
-20002cb0  _unlock                                                                   
-20002cb4  ti_sysbios_family_arm_m3_Hwi_Module__root__V                              
-20002cbc  ti_sysbios_gates_GateHwi_Module__root__V                                  
-20002cc4  ti_sysbios_gates_GateMutex_Module__root__V                                
-20002ccc  ti_sysbios_hal_Hwi_Module__root__V                                        
-20002cd4  ti_sysbios_heaps_HeapMem_Module__root__V                                  
-20002cdc  ti_sysbios_knl_Clock_Module__root__V                                      
-20002ce4  ti_sysbios_knl_Mailbox_Module__root__V                                    
-20002cec  ti_sysbios_knl_Queue_Module__root__V                                      
-20002cf4  ti_sysbios_knl_Semaphore_Module__root__V                                  
-20002cfc  ti_sysbios_knl_Swi_Module__root__V                                        
-20002d04  ti_sysbios_knl_Task_Module__root__V                                       
-20002d0c  xdc_runtime_System_Module_State_0_atexitHandlers__A                       
-20002d14  main_func_sp                                                              
-20002d18  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A                 
-20002d1c  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A                   
-20002d20  ti_sysbios_knl_Task_Module_State_0_idleTask__A                            
-20002d24  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A                  
+20002128  PowerCC26XX_taskKey                                                       
+2000212c  PowerCC26XX_swiKey                                                        
+20002148  parmbuf                                                                   
+20002150  ClockP_tickPeriod                                                         
+20002155  driverlib_release_0_51635                                                 
+20002158  pinUpperBound                                                             
+2000215c  pinLowerBound                                                             
+200021f0  pinHandleTable                                                            
+2000226c  PowerCC26XX_module                                                        
+20002380  _ftable                                                                   
+200024f8  _device                                                                   
+20002570  pOverrides_sl_lr                                                          
+200025dc  pOverrides_hsm                                                            
+20002640  pOverrides_lrm                                                            
+200026a0  pOverrides_ook                                                            
+20002700  pOverrides_fsk                                                            
+2000275c  pOverrides                                                                
+200027b4  ti_sysbios_gates_GateMutex_Object__table__V                               
+20002808  _stream                                                                   
+20002858  ti_sysbios_knl_Task_Object__table__V                                      
+200028a8  ti_sysbios_family_arm_cc26xx_Timer_Object__table__V                       
+200028f0  RF_pProp_fsk                                                              
+200028f4  RF_pProp_lrm                                                              
+200028f8  RF_pProp_ook                                                              
+200028fc  RF_pProp_hsm                                                              
+20002900  RF_pProp_sl_lr                                                            
+20002904  RF_pProp_2_4G_fsk                                                         
+20002908  RF_pCmdPropRadioDivSetup_fsk                                              
+2000290c  RF_pCmdPropRadioDivSetup_lrm                                              
+20002910  RF_pCmdPropRadioDivSetup_ook                                              
+20002914  RF_pCmdRadioSetup_hsm                                                     
+20002918  RF_pCmdPropRadioDivSetup_sl_lr                                            
+2000291c  RF_pCmdPropRadioSetup_2_4G_fsk                                            
+20002920  RF_pCmdTxHS                                                               
+20002924  RF_pCmdRxHS                                                               
+20002928  RF_pCmdFs_preDef                                                          
+2000292c  RF_pCmdPropTx_preDef                                                      
+20002930  RF_pCmdPropRxAdv_preDef                                                   
+20002934  RF_cmdPropRxAdv_preDef                                                    
+20002964  ti_sysbios_knl_Swi_Module_State_0_readyQ__A                               
+20002994  ti_sysbios_knl_Swi_Object__table__V                                       
+200029c4  ti_sysbios_knl_Task_Module_State_0_readyQ__A                              
+200029f4  RF_cmdPropRadioDivSetup                                                   
+20002a1c  RF_cmdPropRadioDivSetup_fsk                                               
+20002a44  RF_cmdPropRadioDivSetup_lrm                                               
+20002a6c  RF_cmdPropRadioDivSetup_ook                                               
+20002a94  RF_cmdPropRadioDivSetup_sl_lr                                             
+20002abc  RF_cmdRxHS                                                                
+20002ae0  ti_sysbios_knl_Clock_Object__table__V                                     
+20002b00  xdc_runtime_Error_IgnoreBlock                                             
+20002b20  RF_cmdFs                                                                  
+20002b38  RF_cmdFs_preDef                                                           
+20002b50  RF_cmdPropTx                                                              
+20002b68  RF_cmdPropTx_preDef                                                       
+20002b80  RF_cmdRadioSetup_hsm                                                      
+20002bb0  shapeovr                                                                  
+20002bc8  ti_sysbios_family_arm_m3_Hwi_Object__table__V                             
+20002be0  ti_sysbios_heaps_HeapMem_Object__table__V                                 
+20002bf8  RF_cmdTxHS                                                                
+20002c0c  RF_prop                                                                   
+20002c1c  RF_prop_fsk                                                               
+20002c2c  RF_prop_hsm                                                               
+20002c3c  RF_prop_lrm                                                               
+20002c4c  RF_prop_ook                                                               
+20002c5c  RF_prop_sl_lr                                                             
+20002c6c  __TI_ft_end                                                               
+20002c70  __aeabi_stdin                                                             
+20002c74  __aeabi_stdout                                                            
+20002c78  __aeabi_stderr                                                            
+20002c8c  __TI_cleanup_ptr                                                          
+20002c90  __TI_dtors_ptr                                                            
+20002c94  __TI_enable_exit_profile_output                                           
+20002c98  pinTable                                                                  
+20002ca4  _lock                                                                     
+20002ca8  _unlock                                                                   
+20002cac  ti_sysbios_family_arm_m3_Hwi_Module__root__V                              
+20002cb4  ti_sysbios_gates_GateHwi_Module__root__V                                  
+20002cbc  ti_sysbios_gates_GateMutex_Module__root__V                                
+20002cc4  ti_sysbios_hal_Hwi_Module__root__V                                        
+20002ccc  ti_sysbios_heaps_HeapMem_Module__root__V                                  
+20002cd4  ti_sysbios_knl_Clock_Module__root__V                                      
+20002cdc  ti_sysbios_knl_Mailbox_Module__root__V                                    
+20002ce4  ti_sysbios_knl_Queue_Module__root__V                                      
+20002cec  ti_sysbios_knl_Semaphore_Module__root__V                                  
+20002cf4  ti_sysbios_knl_Swi_Module__root__V                                        
+20002cfc  ti_sysbios_knl_Task_Module__root__V                                       
+20002d04  xdc_runtime_System_Module_State_0_atexitHandlers__A                       
+20002d0c  main_func_sp                                                              
+20002d10  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excContext__A                 
+20002d14  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excStack__A                   
+20002d18  ti_sysbios_knl_Task_Module_State_0_idleTask__A                            
+20002d1c  ti_sysbios_family_arm_m3_Hwi_Module_State_0_excActive__A                  
 20004c00  __stack                                                                   
 20005000  __STACK_END                                                               
 e000e000  ti_sysbios_family_arm_m3_Hwi_nvic                                         

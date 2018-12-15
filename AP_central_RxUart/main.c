@@ -72,9 +72,9 @@
 #define UART_TASK_PRIORITY   2
 
 #define RFEASYLINKTXPAYLOAD_LENGTH      30
-#define QT_PACKETS 4
+#define QT_PACKETS 1
 
-#define UART_STACK_SIZE 436 // 109 char / packet * 4 packets / stack
+#define UART_STACK_SIZE 109 // 109 char / packet * 4 packets / stack
 #define MEM_STACK_SIZE 10
 
 char uartStack[UART_STACK_SIZE];
