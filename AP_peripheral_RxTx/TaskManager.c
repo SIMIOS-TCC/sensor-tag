@@ -177,18 +177,18 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
         }
 
         /* Toggle LED2 to indicate RX */
-        PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
     }
     else if(status == EasyLink_Status_Aborted)
     {
         /* Toggle LED1 to indicate command aborted */
-        PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
     }
     else
     {
         /* Toggle LED1 and LED2 to indicate error */
-        PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
-        PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
     }
 
     Semaphore_post(rxDoneSemaphore);
@@ -205,13 +205,13 @@ void txDoneCb(EasyLink_Status status)
     else if(status == EasyLink_Status_Aborted)
     {
         /* Toggle LED2 to indicate command aborted */
-        PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
     }
     else
     {
         /* Toggle LED1 and LED2 to indicate error */
-        PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
-        PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+        //PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
     }
 
     Semaphore_post(txDoneSemaphore);
